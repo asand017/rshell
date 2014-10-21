@@ -21,24 +21,19 @@ int main()
 	{
 		cout << "$ ";
 		getline(cin, args); 	
-	//stringstream input;
-	//for(int i = 0; i < argc; ++i)
-	//{
-	//	input << argv[i] << " ";
-	//}
 	
-//	string sent; 
-
-//	input >> sent;
+		string exitf;
 		char *argv[9];
 		int i = 0;
 		vector<string> arg_s;	
 		tokenizer<> tok(args);
 		for(tokenizer<>::iterator beg=tok.begin(); beg!=tok.end();++beg) {
+			if(*beg == "exit")
+				exitf = *beg;
+
 			arg_s.push_back(*beg);
 			argv[i] = new char[6];
 			strcpy(argv[i], const_cast<char*>(arg_s[i].c_str()));
-		//	cout << arg_s[i] << endl;
 			++i;
 		}
 		argv[i] = NULL;	
@@ -58,6 +53,8 @@ int main()
 			if(-1 == waitpid(pid, &pid, 0)) {
 				perror("waitpid");
 			}
+			if(exitf == "exit")
+				exit(1);
 		}
 
 //	int pid = fork();
@@ -102,6 +99,8 @@ int main()
 //		if(-1 == waitpid(pid, &pid, 0))
 //			perror("waitpid");
 //	}
+	
 	}
+
 	return 0;
 }
