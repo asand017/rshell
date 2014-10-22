@@ -1,0 +1,84 @@
+Script started on Tue 21 Oct 2014 11:04:17 PM PDT
+~
+asand017@hammer $ ls
+[0m[38;5;34maddons.sqlite[0m*           [38;5;27mcs61assn[0m/            [38;5;34mhealthreport.sqlite[0m*      [38;5;34mnum1_lab1.cpp[0m*       [38;5;34msessionstore.js[0m*
+[38;5;34ma.out[0m*                   [38;5;27mcs61labs[0m/            [38;5;34mhealthreport.sqlite-shm[0m*  [38;5;34mnum4.cpp[0m*            [38;5;34msignons.sqlite[0m*
+assn1.asm                [38;5;27mDesktop[0m/             helloworld.asm            [38;5;34mpermissions.sqlite[0m*  [38;5;27mstartupCache[0m/
+[38;5;9massn1.tgz[0m                [38;5;27mDocuments[0m/           [38;5;27mindexedDB[0m/                [38;5;27mPictures[0m/            t.cpp
+[38;5;34mblocklist.xml[0m*           [38;5;27mDownloads[0m/           [38;5;34mkey3.db[0m*                  [38;5;34mplaces.sqlite[0m*       [38;5;27mTemplates[0m/
+[38;5;27mbookmarkbackups[0m/         [38;5;34mdownloads.sqlite[0m*    lab1.asm                  [38;5;34mplaces.sqlite-shm[0m*   [38;5;27mthumbnails[0m/
+[38;5;27mCache[0m/                   ex1.asm              [38;5;9mlab1.tgz[0m                  [38;5;34mpluginreg.dat[0m*       [38;5;34mtimes.json[0m*
+[38;5;34m_CACHE_CLEAN_[0m*           ex2.asm              [38;5;9mlab2.tgz[0m                  [38;5;34mprefs.js[0m*            [38;5;34murlclassifierkey3.txt[0m*
+[38;5;34mcert8.db[0m*                ex3.asm              [38;5;34mlab3q1.cpp[0m*               [38;5;27mPublic[0m/              [38;5;27mVideos[0m/
+[38;5;34mchromeappsstore.sqlite[0m*  ex4.asm              [38;5;34mlab3q1.o[0m*                 README.md            [38;5;27mwebapps[0m/
+[38;5;34mcompatibility.ini[0m*       [38;5;34mextensions.ini[0m*      [38;5;34mlocalstore.rdf[0m*           [38;5;27mrshell[0m/              [38;5;34mwebappsstore.sqlite[0m*
+[38;5;34mcontent-prefs.sqlite[0m*    [38;5;34mextensions.sqlite[0m*   [38;5;34mmarionette.log[0m*           [38;5;27msafebrowsing[0m/        [38;5;34mwebappsstore.sqlite-shm[0m*
+[38;5;34mcookies.sqlite[0m*          [38;5;27mfirstrepo[0m/           [38;5;34mmimeTypes.rdf[0m*            [38;5;34msearch.json[0m*         [38;5;27mworkspace[0m/
+[38;5;34mcookies.sqlite-shm[0m*      [38;5;34mformhistory.sqlite[0m*  [38;5;27mmozilla-media-cache[0m/      [38;5;34msecmod.db[0m*
+[38;5;27mcs100lab[0m/                [38;5;27mhealthreport[0m/        [38;5;27mMusic[0m/                    [38;5;34msessionstore.bak[0m*
+[m~
+asand017@hammer $ cs100
+[0;91m
+===============================================================================
+|                                                                             |
+| You have enabled settings specific for cs100.                               |
+|                                                                             |
+===============================================================================
+[0m
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m (master) [0;36m$[0m cd rshell
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (exec) [0;36m$[0m cd src
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell/src[0;95m (exec) [0;36m$[0m rshell
+$ ls
+$  a.out  cow  rshell  rshell.cpp
+$ pwd
+/home/csmajs/asand017/rshell/src
+$ mkdir net
+$ ls
+$  a.out  cow  net  rshell  rshell.cpp
+$ rshell
+$ ls
+$  a.out  cow  net  rshell  rshell.cpp
+$ ls -a
+ls: cannot access -: No such file or directory
+ls: cannot access a: No such file or directory
+$ ls -l
+ls: cannot access -: No such file or directory
+ls: cannot access l: No such file or directory
+$ ls  echo test
+test
+$ echo echo 
+echo
+$ echo echo test
+echo test
+$ echo ||^[[D^[[D^[[D                now ||  ls || touch deer
+now | | ls | | touch deer
+$ touch gree
+$ ls
+$  a.out  cow  gree  net  rshell  rshell.cpp
+$ rm gree
+$ ls
+$  a.out  cow  net  rshell  rshell.cpp
+$ rm -rf coe w ;rm -rf net; ls
+rm: cannot remove `-': No such file or directory
+rm: cannot remove `rf': No such file or directory
+rm: cannot remove `cow': Is a directory
+rm: cannot remove `rm': No such file or directory
+rm: cannot remove `-': No such file or directory
+rm: cannot remove `rf': No such file or directory
+rm: cannot remove `net': Is a directory
+rm: cannot remove `ls': No such file or directory
+$ 
+$ ls ls ls ls ls
+ls: cannot access ls: No such file or directory
+ls: cannot access ls: No such file or directory
+ls: cannot access ls: No such file or directory
+ls: cannot access ls: No such file or directory
+$ exit
+$ exit
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell/src[0;95m (exec) [0;36m$[0m exit
+exit
+~
+asand017@hammer $ exit
+exit
+
+Script done on Tue 21 Oct 2014 11:14:07 PM PDT
