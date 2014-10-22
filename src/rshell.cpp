@@ -11,29 +11,31 @@
 #include <sstream>
 #include <vector>
 
-using namespace boost;
+//using namespace boost;
 using namespace std;
 
 int main()
 {
+	using namespace boost;
 	string args;
 	while(1 != 2)
 	{
 		cout << "$ ";
 		getline(cin, args); 	
-	
-		string exitf;
+		
 		char *argv[9];
 		int i = 0;
-		vector<string> arg_s;	
-		tokenizer<> tok(args);
-		for(tokenizer<>::iterator beg=tok.begin(); beg!=tok.end();++beg) {
-			if(*beg == "exit")
-				exitf = *beg;
+		vector<string> arg_s;
+		
 
+		tokenizer<> tok(args);	
+		for(tokenizer<>::iterator beg=tok.begin(); beg!=tok.end();++beg) {
+			
 			arg_s.push_back(*beg);
 			argv[i] = new char[6];
 			strcpy(argv[i], const_cast<char*>(arg_s[i].c_str()));
+			if(*beg == "exit")
+				exit(1);
 			++i;
 		}
 		argv[i] = NULL;	
@@ -53,8 +55,6 @@ int main()
 			if(-1 == waitpid(pid, &pid, 0)) {
 				perror("waitpid");
 			}
-			if(exitf == "exit")
-				exit(1);
 		}
 
 //	int pid = fork();
