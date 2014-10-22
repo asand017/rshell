@@ -1,7 +1,48 @@
-rshell
+RSHELL
 ======
 
-rshell assignment for cs100.
+Licensing information: READ LICENSE
+---
+Project source can be downloaded at https://github.com/asand017/rshell.git
+---------
+Author and contribution list
+---------------------
+Aaron Sanders
+
+All other known bugs can be sent to asand017@ucr.edu
+
+File List
+----------
+'''
+.:
+Makefile
+ 
+LICENSE
+
+README.md
+
+./src
+
+./tests
+...
+...
+./src:
+
+rshell.cpp
+'''
+'''
+./tests:
+
+exec.script
+'''
+How to run file
+-------------
+In terminal:
+1. $git clone http://github.com/yourusername/rshell.git
+2. $cd rshell
+3. $cd git checkout hw0
+4. $make
+5. $bin/rshell
 
 Summary:
 
@@ -9,20 +50,6 @@ rshell attempts to mimic a bash-like terminal shell. rshell accepts bash command
 that exist in /bin, however it does not function with built-in bash commands, such as cd.
 
 Functionality:
-
-rshell features the following libraries:
-#include <boost/tokenizer.hpp>
-#include <iostream>
-#include <unistd.h>
-#include <string.h>
-#include <cstdlib>
-#include <errno.h>
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <string>
-#include <sstream>
-#include <vector>
 
 rshell includes a special built in exit command, exit. Additionally it features a "$" command prompt at the beginning of 
 each command line.
@@ -37,6 +64,9 @@ $ mkdir cow
 $ ls
 $  a.out  cow  rshell  rshell.cpp
 $ exit
+
+Installation:
+To install rshell, enter into the terminal command line, $make.
 
 Bugs:
 
