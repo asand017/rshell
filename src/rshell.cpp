@@ -51,7 +51,7 @@ int main()
 	//			}
 			}
 			else {
-				cout << *tok_iter << endl;
+
 				arg_s.push_back(*tok_iter);
 				argv[i] = new char[12];
 				strcpy(argv[i], const_cast<char*>(arg_s[i].c_str()));
