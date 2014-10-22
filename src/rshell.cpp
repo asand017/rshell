@@ -26,17 +26,39 @@ int main()
 		char *argv[9];
 		int i = 0;
 		vector<string> arg_s;
-		
+		typedef tokenizer< char_separator<char> > tokenizer;
+		char_separator<char> sep(" ", "-;||&&", drop_empty_tokens);
+		tokenizer tokens(args, sep);
 
-		tokenizer<> tok(args);	
-		for(tokenizer<>::iterator beg=tok.begin(); beg!=tok.end();++beg) {
-			
-			arg_s.push_back(*beg);
-			argv[i] = new char[6];
-			strcpy(argv[i], const_cast<char*>(arg_s[i].c_str()));
-			if(*beg == "exit")
-				exit(1);
-			++i;
+		for(tokenizer::iterator tok_iter=tokens.begin(); tok_iter != tokens.end();++tok_iter) {
+			if(*tok_iter == "&&" || *tok_iter == "||" || *tok_iter == ";") {
+		
+	//			argv[i] = NULL;
+	//			int pidb = fork();
+	//			if(pidb == -1) {
+	//				perror("fork");
+	//			}
+	//			if(pidb == 0) {
+	//				int t = execvp(argv[0], argv);
+	//				if(t == -1) {
+	//					perror("execvp");
+	//				}
+	//			}
+	//			else {
+	//				if(-1 == waitpid(pidb, &pidb, 0)) {
+	//					perror("waitpid");
+	//				}
+	//			}
+			}
+			else {
+				cout << *tok_iter << endl;
+				arg_s.push_back(*tok_iter);
+				argv[i] = new char[12];
+				strcpy(argv[i], const_cast<char*>(arg_s[i].c_str()));
+				if(*tok_iter == "exit")
+					exit(1);
+				++i;
+			}
 		}
 		argv[i] = NULL;	
 		int pid = fork();
