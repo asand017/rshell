@@ -33,22 +33,6 @@ int main()
 		for(tokenizer::iterator tok_iter=tokens.begin(); tok_iter != tokens.end();++tok_iter) {
 			if(*tok_iter == "&&" || *tok_iter == "||" || *tok_iter == ";") {
 		
-	//			argv[i] = NULL;
-	//			int pidb = fork();
-	//			if(pidb == -1) {
-	//				perror("fork");
-	//			}
-	//			if(pidb == 0) {
-	//				int t = execvp(argv[0], argv);
-	//				if(t == -1) {
-	//					perror("execvp");
-	//				}
-	//			}
-	//			else {
-	//				if(-1 == waitpid(pidb, &pidb, 0)) {
-	//					perror("waitpid");
-	//				}
-	//			}
 			}
 			else {
 
