@@ -1,17 +1,14 @@
-opt = "-Wall -Werror -ansi -pedantic"
-compiler = "g++"
+FLAGS=-Wall -Werror -ansi -pedantic
+CC=g++
 
-all:
-	mkdir bin
-	g++ -c -Wall -Werror -ansi -pedantic rshell.cpp -o bin/rshell
-	cd bin
-	rshell
-	rm -rf bin
+all: rshell
 
-rshell:
-	mkdir bin 
-	g++ -c -Wall -Werror -ansi -pedantic rshell.cpp -o bin/rshell
-	cd bin 
-	rshell
-	rm -rf bin
+rshell: src/rshell.cpp
+	@if[! -d bin/];\
+	then \
+	mkdir bin; \
+	fi
+	$(CC)-c $(FLAGS) src/rshell.cpp -o bin/rshell
+
+clean: rm bin/*.o bin/rshell
 	
