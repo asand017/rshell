@@ -11,28 +11,134 @@
 #include <sstream>
 #include <vector>
 
-//using namespace boost;
 using namespace std;
+using namespace boost;
 
 int main()
 {
-	using namespace boost;
+	int yas_and = 0;
+	int yas_or = 0;
 	string args;
 	while(1 != 2)
 	{
 		cout << "$ ";
 		getline(cin, args); 	
 		
+		string saad;
 		char *argv[9];
 		int i = 0;
 		vector<string> arg_s;
 		typedef tokenizer< char_separator<char> > tokenizer;
 		char_separator<char> sep(" ", "-;||&&", drop_empty_tokens);
 		tokenizer tokens(args, sep);
-
 		for(tokenizer::iterator tok_iter=tokens.begin(); tok_iter != tokens.end();++tok_iter) {
-			if(*tok_iter == "&&" || *tok_iter == "||" || *tok_iter == ";") {
-		
+			if(yas_and == 1){
+				if(*tok_iter == "&") {
+					++tok_iter;
+					//arg_s.push_back(*tok_iter);
+					//argv[i] = new char[12];
+					//strcpy(argv[i], const_cast<char*>(arg_s[i].c_str()));
+					//if(*tok_iter == "exit")
+					//	exit(1);
+					//++i;
+
+					argv[i] = NULL;
+					int pid2 = fork();
+					if(pid2 == -1) {
+						perror("fork");	
+						exit(1);
+					}
+					if(pid2 == 0) {
+						int r = execvp(argv[0], argv);
+						if(r == -1) {
+							perror("execvp");
+							exit(1);
+						}
+					}
+					else {
+						if(-1 == waitpid(pid2, &pid2, 0)) {
+							perror("waitpid");
+						}
+					}
+				}
+			}
+			if(yas_or == 1){
+				if(*tok_iter == "|") {
+					++tok_iter;
+					//arg_s.push_back(*tok_iter);
+					//argv[i] = new char[12];
+					//strcpy(argv[i], const_cast<char*>(arg_s[i].c_str()));
+					//if(*tok_iter == "exit")
+					//	exit(1);
+					//++i;
+
+
+					argv[i] = NULL;
+					int pid2 = fork();
+					if(pid2 == -1) {
+						perror("fork");	
+						exit(1);
+					}
+					if(pid2 == 0) {
+						int r = execvp(argv[0], argv);
+						if(r == -1) {
+							perror("execvp");
+							exit(1);
+						}
+					}
+					else {
+						if(-1 == waitpid(pid2, &pid2, 0)) {
+							perror("waitpid");
+						}
+					}
+				}
+			}
+
+			if(saad == "-") {
+				saad.append(*tok_iter);
+				arg_s.push_back(saad);
+				argv[i] = new char[12];
+				strcpy(argv[i], const_cast<char*>(saad.c_str()));
+				if(*tok_iter == "exit")
+					exit(1);
+				++i;
+				continue;		
+			}
+			if(*tok_iter == "-") {
+				saad = *tok_iter;
+				continue;	
+			}
+			
+			if(*tok_iter == "&") {
+				++yas_and;
+				continue;
+			}
+			else if(*tok_iter == "|") {
+				++yas_or;
+				continue;
+			}
+			else if(*tok_iter == ";") {
+				++tok_iter;
+				argv[i] = NULL;	
+				int pid2 = fork();
+				if(pid2 == -1) {
+					perror("fork");	
+					exit(1);
+				}
+				if(pid2 == 0) {
+					string temp = *tok_iter;
+					int r = execvp(const_cast<char*>(temp.c_str()), argv);
+					if(r == -1) {
+						perror("execvp");
+						exit(1);
+					}
+				}
+				else {
+					if(-1 == waitpid(pid2, &pid2, 0)) {
+						perror("waitpid");
+					}
+				}
+
 			}
 			else {
 
@@ -62,49 +168,6 @@ int main()
 				perror("waitpid");
 			}
 		}
-
-//	int pid = fork();
-//	if(pid == -1) {
-//		perror("fork");
-//		exit(1);
-//	}
-//	if(pid == 0)
-//	{
-		//char *argv2[4];
-		//argv2[0] = new char[6];
-		//strcpy(argv[0], "ls");
-		//argv2[1] = new char[6];
-		//strcpy(argv[1], "-a");
-		//argv2[2] = new char [6];
-		//strcpy(argv[2], "-l");
-	
-	//	int pid2 = fork();
-	//	if(pid2 == -1) {
-	//		perror("fork");
-	//		exit(1);
-	//	}	
-	//	if(pid2 == 0) {
-	///		if(execvp(argv[0], argv) == -1) {
-	//			perror("execvp");	
-	//			exit(1);
-	//		}
-	//	}
-	//	else {
-	//		if(-1 == waitpid(pid2,&pid2,0 ))
-	//			perror("waitpid");
-	//	}
-	//	
-	  //      if(execvp(argv[1], argv) == -1) {
-	//		perror("execvp");
-	//		exit(1);
-	//	}
-//
-//		cout << "after" << endl;
-//	}
-//	else {
-//		if(-1 == waitpid(pid, &pid, 0))
-//			perror("waitpid");
-//	}
 	
 	}
 
