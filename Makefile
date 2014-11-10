@@ -1,17 +1,16 @@
-all: rshell
-
 FLAGS=-Wall -Werror -ansi -pedantic
 CC=g++
 
+all: rshell ls
 
 rshell: 
-	src/rshell.cpp
-	@if[!-d bin/];\ 
-	then\
-	mkdir bin;\  
-	fi
-	$(CC) $(FLAGS) src/rshell.cpp -o bin/rshell
+	[ -e ./bin ] || mkdir bin 
+	$(CC) $(FLAGS) ./src/rshell.cpp -o ./bin/rshell
+	
+ls: 
+	[ -e ./bin ] || mkdir bin
+	$(CC) $(FLAGS) ./src/rshell.cpp -o ./bin/ls
 
 clean: 
-	rm -rf  bin/*.o bin/rshell
+	rm -rf bin/*.o bin
 	
