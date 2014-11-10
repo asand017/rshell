@@ -1,7 +1,11 @@
 FLAGS=-Wall -Werror -ansi -pedantic
 CC=g++
 
-all: rshell ls
+all: cp rshell ls
+
+cp: 
+	[ -e ./bin ] || mkdir bin
+	$(CC) $(FLAGS) ./src/cp.cpp -o ./bin/cp
 
 rshell: 
 	[ -e ./bin ] || mkdir bin 
@@ -9,7 +13,7 @@ rshell:
 	
 ls: 
 	[ -e ./bin ] || mkdir bin
-	$(CC) $(FLAGS) ./src/rshell.cpp -o ./bin/ls
+	$(CC) $(FLAGS) ./src/ls.cpp -o ./bin/ls
 
 clean: 
 	rm -rf bin/*.o bin
