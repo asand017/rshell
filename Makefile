@@ -1,6 +1,7 @@
 FLAGS=-Wall -Werror -ansi -pedantic
 CC=g++
 
+
 all: cp rshell ls
 
 cp: 
