@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <time.h>
 #include <stdlib.h>
+#include <fcntl.h>
 
 using namespace std;
 
@@ -38,15 +39,35 @@ void print_l(vector<string>& x) {
 	ssize_t g = 0;
 	for(unsigned i = 0; i < x.size(); ++i) {
 		now = x[i];
+		int fd = open(now.c_str(), O_RDONLY);
+		if(fd == -1)
+		{
+			perror("open");
+			exit(1);
+		}
 		if(stat(now.c_str(), &club) == -1) {
 			perror("stat");
 			exit(1);
 		}
 		g += club.st_size;
+		int fo = close(fd);
+		if(fo == -1)
+		{
+			perror("close");
+			exit(1);
+		}
+	
 	}
 	cout << "total " << g << endl;	
-	for(unsigned i = 0; i < x.size(); ++i) {
-		cow = x[i];
+	for(unsigned e = 0; e < x.size(); ++e) {
+		cow = x[e];
+		int fd = open(now.c_str(), O_RDONLY);
+		if(fd == -1)
+		{
+			perror("open");
+			exit(1);
+		}
+
 		if(stat(cow.c_str(), &club) == -1) {
 			perror("stat");
 			exit(-1);
@@ -79,8 +100,18 @@ void print_l(vector<string>& x) {
 		cout << club.st_gid << " ";
 		cout << setw(5) << club.st_size << " ";
 		cout << setw(5) << club.st_mtime << "sec ";			
-		cout << left << setw(0) << x[i] << endl;
+		cout << left << setw(0) << x[e] << endl;
+		int fo = close(fd);
+		if(fo == -1)
+		{
+			perror("close");
+			exit(1);
+		}
+	
+
 	}
+//	cerr << "yas" << endl;
+	return;
 
 }
 
@@ -145,7 +176,7 @@ void alphabetize(vector<string>& x) {
 }
 
 //default
-static void lookup()//const char *arg) //ls (no flags)
+static void lookup()//ls (no flags)
 {
 	vector<string> temp;
 	DIR *start;
@@ -182,12 +213,11 @@ static void lookup()//const char *arg) //ls (no flags)
 }
 
 //-a
-static void lookup2()//const char *arg)
+static void lookup2()
 {
 	vector<string> temp;
 	DIR *start;
 	struct dirent *entry;
-//	char* x;
 	if((start=opendir(".")) == NULL) {
 		perror("opendir");
 		return;
@@ -196,9 +226,6 @@ static void lookup2()//const char *arg)
 	do {
 		errno = 0;
 		if((entry = readdir(start)) != NULL) {
-
-//			x = entry->d_name;
-			
 			temp.push_back(entry->d_name);			
 		}
 		
@@ -217,12 +244,12 @@ static void lookup2()//const char *arg)
 
 
 //-la
-static void lookup31()//const char *arg) 
+static void lookup31()
 {
 	vector<string> temp;
 	DIR *start;
 	struct dirent *entry;
-	//char* x;
+
 	if((start=opendir(".")) == NULL) 
 	{
 		perror("opendir");
@@ -233,13 +260,9 @@ static void lookup31()//const char *arg)
 		errno = 0;
 		if((entry = readdir(start)) != NULL) 
 		{	
-			//x = entry->d_name;						
-
-			//if(x[0] == '.') 
-			//	continue;
-					
 			temp.push_back(entry->d_name);
-		}	
+		}
+			
 		
 	} while(entry != NULL);
 	
@@ -255,13 +278,83 @@ static void lookup31()//const char *arg)
 
 
 //-l
-static void lookup3()//const char *arg) 
+static void lookup3()
 {
 	vector<string> temp;
 	DIR *start;
 	struct dirent *entry;
 	char* x;
 	if((start=opendir(".")) == NULL) 
+	{
+		perror("opendir");
+		return;
+	}
+	
+	do {
+		errno = 0;
+		if((entry = readdir(start)) != NULL) 
+		{	
+			x = entry->d_name;						
+
+			if(x[0] == '.') 
+				continue;
+					
+			temp.push_back(entry->d_name);
+		}
+			
+		
+	} while(entry != NULL);
+	
+	alphabetize(temp);
+	print_l(temp);
+
+	if(errno != 0){
+		cerr << "yas" << endl;
+		perror("error reading directory");	
+	}
+	closedir(start);
+	return;
+}
+
+
+static void lookup_d1(char* q)
+{
+	vector<string> temp;
+	DIR *start;
+	struct dirent *entry;
+	if((start=opendir(q)) == NULL) 
+	{
+		perror("opendir");
+		return;
+	}
+	
+	do {
+		errno = 0;
+		if((entry = readdir(start)) != NULL) 
+		{		
+			temp.push_back(entry->d_name);
+		}	
+		
+	} while(entry != NULL);
+	
+	alphabetize(temp);
+	print_files(temp);
+
+	if(errno != 0)
+		perror("error reading directory");	
+	
+	closedir(start);
+	return;
+}
+
+//-lR
+static void dlookup_d(char* q)
+{
+	vector<string> temp;
+	DIR *start;
+	struct dirent *entry;
+	char* x;
+	if((start=opendir(q)) == NULL) 
 	{
 		perror("opendir");
 		return;
@@ -291,46 +384,9 @@ static void lookup3()//const char *arg)
 	return;
 }
 
-//ls (passed in directory
-static void lookup_d1(char* q)//const char *arg) 
-{
-	vector<string> temp;
-	DIR *start;
-	struct dirent *entry;
-	//char* x;
-	if((start=opendir(q)) == NULL) 
-	{
-		perror("opendir");
-		return;
-	}
-	
-	do {
-		errno = 0;
-		if((entry = readdir(start)) != NULL) 
-		{	
-			//x = entry->d_name;						
-
-			//if(x[0] == '.') 
-			//	continue;
-					
-			temp.push_back(entry->d_name);
-		}	
-		
-	} while(entry != NULL);
-	
-	alphabetize(temp);
-	print_files(temp);
-
-	if(errno != 0)
-		perror("error reading directory");	
-	
-	closedir(start);
-	return;
-}
-
 
 //ls (passed in directory
-static void lookup_d(char* q)//const char *arg) 
+static void lookup_d(char* q)
 {
 	vector<string> temp;
 	DIR *start;
@@ -368,14 +424,13 @@ static void lookup_d(char* q)//const char *arg)
 
 
 //-Ra
-static void lookup41()//const char *arg) 
+static void lookup41()
 {
 	
 	vector<string> temp;
 	DIR *start;
 	struct dirent *entry;
-	char* x;
-	//char jk[2] = {'.','.'};
+	char* x;	
 	if((start=opendir(".")) == NULL) 
 	{
 		perror("opendir");
@@ -389,10 +444,6 @@ static void lookup41()//const char *arg)
 		{	
 			if(entry->d_type == DT_DIR)
 			{	
-				//if(entry->d_name == jk)
-					
-
-				//cout << entry->d_name << ":" << endl; 
 				x = entry->d_name;
 				if(x[0] == '.' && x[1] == '.')
 					continue;
@@ -400,28 +451,11 @@ static void lookup41()//const char *arg)
 				lookup_d1(x);
 				
 			}
-		//	x = entry->d_name;						
-
-		//	if(x[0] == '.') 
-		//		continue;
-					
-			//temp.push_back(entry->d_name);
+			
 		}	
 		
 	} while(entry != NULL);
 	
-	//do {
-	//	errno = 0;
-	//	if((entry = readdir(start)) != NULL)
-	//	{
-	//		x = entry->d_name;
-	//	
-	//		if(x[0] == '.')
-	//			continue;
-//
-//			temp.push_back(entry->d_name);
-//		}
-//	} while (entry != NULL);
 
 	if(errno != 0)
 	{
@@ -429,10 +463,6 @@ static void lookup41()//const char *arg)
 		closedir(start);
 		return;
 	}
-//	cout << entry->d_name << ":" << endl;
-//
-//	alphabetize(temp);
-//	print_files(temp);
 
 	
 	closedir(start);
@@ -441,14 +471,58 @@ static void lookup41()//const char *arg)
 
 
 //-R
-static void lookup4()//const char *arg) 
+static void lookup4()
 {
 	
 	vector<string> temp;
 	DIR *start;
 	struct dirent *entry;
 	char* x;
-	//char jk[2] = {'.','.'};
+
+	if((start=opendir(".")) == NULL) 
+	{
+		perror("opendir");
+		closedir(start);
+		return;
+	}
+	
+	do {
+		errno = 0;
+		if((entry = readdir(start)) != NULL) 
+		{	
+			if(entry->d_type == DT_DIR)
+			{						
+				x = entry->d_name;
+				if(x[0] == '.' && x[1] == '.')
+					continue;
+				cout << x << ":" << endl;
+				lookup_d(x);
+				
+			}
+		}	
+		
+	} while(entry != NULL);
+	
+
+	if(errno != 0)
+	{
+		perror("error reading directory");
+		closedir(start);
+		return;
+	}
+	closedir(start);
+	return;
+}
+
+//-Rl
+static void lookup42()
+{
+	
+	vector<string> temp;
+	DIR *start;
+	struct dirent *entry;
+	char* x;
+
 	if((start=opendir(".")) == NULL) 
 	{
 		perror("opendir");
@@ -462,39 +536,18 @@ static void lookup4()//const char *arg)
 		{	
 			if(entry->d_type == DT_DIR)
 			{	
-				//if(entry->d_name == jk)
-					
-
-				//cout << entry->d_name << ":" << endl; 
 				x = entry->d_name;
 				if(x[0] == '.' && x[1] == '.')
 					continue;
 				cout << x << ":" << endl;
-				lookup_d(x);
+				dlookup_d(x);
 				
 			}
-		//	x = entry->d_name;						
-
-		//	if(x[0] == '.') 
-		//		continue;
-					
-			//temp.push_back(entry->d_name);
+			
 		}	
 		
 	} while(entry != NULL);
 	
-	//do {
-	//	errno = 0;
-	//	if((entry = readdir(start)) != NULL)
-	//	{
-	//		x = entry->d_name;
-	//	
-	//		if(x[0] == '.')
-	//			continue;
-//
-//			temp.push_back(entry->d_name);
-//		}
-//	} while (entry != NULL);
 
 	if(errno != 0)
 	{
@@ -502,10 +555,6 @@ static void lookup4()//const char *arg)
 		closedir(start);
 		return;
 	}
-//	cout << entry->d_name << ":" << endl;
-//
-//	alphabetize(temp);
-//	print_files(temp);
 
 	
 	closedir(start);
@@ -517,12 +566,6 @@ int main( int argc, char *argv[]) {
 	string flag = "-a";
 	string flag2 = "-l";
 	string flag3 = "-R";
-//	string flag4 = "-aR";
-//	string flag5 = "-al";
-//	string flag6 = "-lR";
-//	string flag7 = "-Rl";
-//	string flag8 = "-Ra";
-//	string flag9 = "-la";	
 
 	if(argc == 1)
 	{	
@@ -552,7 +595,11 @@ int main( int argc, char *argv[]) {
 				lookup41(); 	
 		}
 		
-		
+		if(strstr(argv[i], "l") != NULL)
+		{
+			if(strstr(argv[i], "R") != NULL)
+				lookup42();
+		}	
 	}
 	
 	
