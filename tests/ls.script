@@ -1,0 +1,116 @@
+Script started on Tue 11 Nov 2014 11:25:37 PM PST
+~
+asand017@hammer $ cs100
+[0;91m
+===============================================================================
+|                                                                             |
+| You have enabled settings specific for cs100.                               |
+|                                                                             |
+===============================================================================
+[0m
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m (master) [0;36m$[0m ls
+1			cs61assn		 helloworld.asm       --no-check-certificate  sessionstore.bak
+addons.sqlite		cs61labs		 indexedDB	      num1_lab1.cpp	      sessionstore.js
+a.out			Desktop			 index.html	      num4.cpp		      signons.sqlite
+assn1.asm		Documents		 index.html.1	      permissions.sqlite      startupCache
+assn1.tgz		Downloads		 index.html.2	      Pictures		      talk.jpg
+blocklist.xml		downloads.sqlite	 key3.db	      places.sqlite	      t.cpp
+bookmarkbackups		ex1.asm			 lab1.asm	      places.sqlite-shm       Templates
+Cache			ex2.asm			 lab1.tgz	      pluginreg.dat	      test.cpp
+_CACHE_CLEAN_		ex3.asm			 lab2.tgz	      prefs.js		      text.cpp
+cert8.db		ex4.asm			 lab3q1.cpp	      Public		      thumbnails
+chromeappsstore.sqlite	extensions.ini		 lab3q1.o	      qw.jpeg		      times.json
+compatibility.ini	extensions.sqlite	 localstore.rdf       README		      urlclassifierkey3.txt
+content-prefs.sqlite	firstrepo		 marionette.log       README.md		      Videos
+cookies.sqlite		formhistory.sqlite	 mimeTypes.rdf	      rshell		      webapps
+cookies.sqlite-shm	healthreport		 mozilla-media-cache  safebrowsing	      webappsstore.sqlite
+cs100lab		healthreport.sqlite	 Music		      search.json	      webappsstore.sqlite-shm
+cs100lecture		healthreport.sqlite-shm  new.cpp	      secmod.db		      workspace
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m (master) [0;36m$[0m cd rshell
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (ls) [0;36m$[0m ls
+LICENSE  Makefile  README.md  src  tests
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (ls) [0;36m$[0m cd src
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell/src[0;95m (ls) [0;36m$[0m ls
+a.out  cp.cpp  ls.cpp  rshell.cpp  Timer.h
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell/src[0;95m (ls) [0;36m$[0m g++ -Wall -E[KWerror -asn[K[Knsi -pedantic ls.cpp
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell/src[0;95m (ls) [0;36m$[0m a.out
+a.out             cp.cpp            ls.cpp            rshell.cpp        Timer.h           
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell/src[0;95m (ls) [0;36m$[0m a.out -a
+.                 ..                a.out             cp.cpp            ls.cpp            
+rshell.cpp        .rshell.cpp.swp   Timer.h           
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell/src[0;95m (ls) [0;36m$[0m a.out -l
+total 66883
+-rwx------ 1 36790 950 46923 1415777126sec a.out
+-rw------- 1 36790 950 4803  1415682389sec cp.cpp
+-rw------- 1 36790 950 9174  1415776922sec ls.cpp
+-rwx------ 1 36790 950 3282  1415323849sec rshell.cpp
+-rw------- 1 36790 950 2701  1415749649sec Timer.h
+error reading directory: Permission denied
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell/src[0;95m (ls) [0;36m$[0m a.out -R
+.:
+a.out             cp.cpp            ls.cpp            rshell.cpp        Timer.h           
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell/src[0;95m (ls) [0;36m$[0m a.out /
+bin               boot              C:\nppdf32Log\debuglog.txt  cgroup            class             
+dev               etc               extra             home              lib               lib64             lost+found        media             misc              mnt               net               opt               proc              root              sbin              selinux           srv               sys               tmp               usr               var               
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell/src[0;95m (ls) [0;36m$[0m a.out -l -R
+.:
+total 66883
+-rwx------ 1 36790 950 46923 1415777126sec a.out
+-rw------- 1 36790 950 4803  1415682389sec cp.cpp
+-rw------- 1 36790 950 9174  1415776922sec ls.cpp
+-rwx------ 1 36790 950 3282  1415323849sec rshell.cpp
+-rw------- 1 36790 950 2701  1415749649sec Timer.h
+error reading directory: Permission denied
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell/src[0;95m (ls) [0;36m$[0m a.out -a -a
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell/src[0;95m (ls) [0;36m$[0m a.out -a -l
+total 95555
+drwx------ 2 36790 950  4096 1415777125sec .
+drwx------ 5 36790 950 4096  1415776740sec ..
+-rw------- 1 36790 950 20480 1415315338sec .rshell.cpp.swp
+-rwx------ 1 36790 950 46923 1415777126sec a.out
+-rw------- 1 36790 950 4803  1415682389sec cp.cpp
+-rw------- 1 36790 950 9174  1415776922sec ls.cpp
+-rwx------ 1 36790 950 3282  1415323849sec rshell.cpp
+-rw------- 1 36790 950 2701  1415749649sec Timer.h
+error reading directory: Permission denied
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell/src[0;95m (ls) [0;36m$[0m a.put[K[K[Kout -a -R
+.:
+.                 ..                .rshell.cpp.swp   a.out             cp.cpp            
+ls.cpp            rshell.cpp        Timer.h           
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell/src[0;95m (ls) [0;36m$[0m a.out -aR
+.:
+.                 ..                .rshell.cpp.swp   a.out             cp.cpp            
+ls.cpp            rshell.cpp        Timer.h           
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell/src[0;95m (ls) [0;36m$[0m a.out -Ra
+.:
+.                 ..                .rshell.cpp.swp   a.out             cp.cpp            
+ls.cpp            rshell.cpp        Timer.h           
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell/src[0;95m (ls) [0;36m$[0m a.out -la
+total 95555
+drwx------ 2 36790 950  4096 1415777125sec .
+drwx------ 5 36790 950 4096  1415776740sec ..
+-rw------- 1 36790 950 20480 1415315338sec .rshell.cpp.swp
+-rwx------ 1 36790 950 46923 1415777126sec a.out
+-rw------- 1 36790 950 4803  1415682389sec cp.cpp
+-rw------- 1 36790 950 9174  1415776922sec ls.cpp
+-rwx------ 1 36790 950 3282  1415323849sec rshell.cpp
+-rw------- 1 36790 950 2701  1415749649sec Timer.h
+error reading directory: Permission denied
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell/src[0;95m (ls) [0;36m$[0m a.out -al
+total 95555
+drwx------ 2 36790 950  4096 1415777125sec .
+drwx------ 5 36790 950 4096  1415776740sec ..
+-rw------- 1 36790 950 20480 1415315338sec .rshell.cpp.swp
+-rwx------ 1 36790 950 46923 1415777126sec a.out
+-rw------- 1 36790 950 4803  1415682389sec cp.cpp
+-rw------- 1 36790 950 9174  1415776922sec ls.cpp
+-rwx------ 1 36790 950 3282  1415323849sec rshell.cpp
+-rw------- 1 36790 950 2701  1415749649sec Timer.h
+error reading directory: Permission denied
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell/src[0;95m (ls) [0;36m$[0m exit
+exit
+~
+asand017@hammer $ exit
+exit
+
+Script done on Tue 11 Nov 2014 11:29:25 PM PST
