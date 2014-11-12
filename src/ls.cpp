@@ -15,16 +15,16 @@
 #include <time.h>
 #include <stdlib.h>
 
-//#include "boost/format.hpp"
-
 using namespace std;
-//using boost::format;
-//using boost::io::group;
 
 //PRINTING OUT VECTOR OF FILES
 void print_files(vector<string>& x) {
+	unsigned z = 0;
 	for(unsigned i = 0; i < x.size(); ++i) {
-		cout << x.at(i) << "  ";	
+		if(z == 5)
+			cout << endl;
+		cout << setw(16) << left << x.at(i) << "  ";
+			++z;
 	}
 	cout << endl;
 	return;
@@ -32,12 +32,7 @@ void print_files(vector<string>& x) {
 
 void print_l(vector<string>& x) {
 	struct stat club;
-	int intake;
-	struct passwd* move = getpwnam("root");
-	if(!move) {
-		cerr << "no root account" << endl;
-		exit(1);
-	}
+	int intake;	
 	string cow;
 	string now;
 	ssize_t g = 0;
@@ -219,6 +214,46 @@ static void lookup2()//const char *arg)
 	return;
 }
 
+
+
+//-la
+static void lookup31()//const char *arg) 
+{
+	vector<string> temp;
+	DIR *start;
+	struct dirent *entry;
+	//char* x;
+	if((start=opendir(".")) == NULL) 
+	{
+		perror("opendir");
+		return;
+	}
+	
+	do {
+		errno = 0;
+		if((entry = readdir(start)) != NULL) 
+		{	
+			//x = entry->d_name;						
+
+			//if(x[0] == '.') 
+			//	continue;
+					
+			temp.push_back(entry->d_name);
+		}	
+		
+	} while(entry != NULL);
+	
+	alphabetize(temp);
+	print_l(temp);
+
+	if(errno != 0)
+		perror("error reading directory");	
+	
+	closedir(start);
+	return;
+}
+
+
 //-l
 static void lookup3()//const char *arg) 
 {
@@ -250,8 +285,44 @@ static void lookup3()//const char *arg)
 	print_l(temp);
 
 	if(errno != 0)
-		cerr << errno << endl;
-		//perror("error reading directory");	
+		perror("error reading directory");	
+	
+	closedir(start);
+	return;
+}
+
+//ls (passed in directory
+static void lookup_d1(char* q)//const char *arg) 
+{
+	vector<string> temp;
+	DIR *start;
+	struct dirent *entry;
+	//char* x;
+	if((start=opendir(q)) == NULL) 
+	{
+		perror("opendir");
+		return;
+	}
+	
+	do {
+		errno = 0;
+		if((entry = readdir(start)) != NULL) 
+		{	
+			//x = entry->d_name;						
+
+			//if(x[0] == '.') 
+			//	continue;
+					
+			temp.push_back(entry->d_name);
+		}	
+		
+	} while(entry != NULL);
+	
+	alphabetize(temp);
+	print_files(temp);
+
+	if(errno != 0)
+		perror("error reading directory");	
 	
 	closedir(start);
 	return;
@@ -295,10 +366,157 @@ static void lookup_d(char* q)//const char *arg)
 	return;
 }
 
+
+//-Ra
+static void lookup41()//const char *arg) 
+{
+	
+	vector<string> temp;
+	DIR *start;
+	struct dirent *entry;
+	char* x;
+	//char jk[2] = {'.','.'};
+	if((start=opendir(".")) == NULL) 
+	{
+		perror("opendir");
+		closedir(start);
+		return;
+	}
+	
+	do {
+		errno = 0;
+		if((entry = readdir(start)) != NULL) 
+		{	
+			if(entry->d_type == DT_DIR)
+			{	
+				//if(entry->d_name == jk)
+					
+
+				//cout << entry->d_name << ":" << endl; 
+				x = entry->d_name;
+				if(x[0] == '.' && x[1] == '.')
+					continue;
+				cout << x << ":" << endl;
+				lookup_d1(x);
+				
+			}
+		//	x = entry->d_name;						
+
+		//	if(x[0] == '.') 
+		//		continue;
+					
+			//temp.push_back(entry->d_name);
+		}	
+		
+	} while(entry != NULL);
+	
+	//do {
+	//	errno = 0;
+	//	if((entry = readdir(start)) != NULL)
+	//	{
+	//		x = entry->d_name;
+	//	
+	//		if(x[0] == '.')
+	//			continue;
+//
+//			temp.push_back(entry->d_name);
+//		}
+//	} while (entry != NULL);
+
+	if(errno != 0)
+	{
+		perror("error reading directory");
+		closedir(start);
+		return;
+	}
+//	cout << entry->d_name << ":" << endl;
+//
+//	alphabetize(temp);
+//	print_files(temp);
+
+	
+	closedir(start);
+	return;
+}
+
+
+//-R
+static void lookup4()//const char *arg) 
+{
+	
+	vector<string> temp;
+	DIR *start;
+	struct dirent *entry;
+	char* x;
+	//char jk[2] = {'.','.'};
+	if((start=opendir(".")) == NULL) 
+	{
+		perror("opendir");
+		closedir(start);
+		return;
+	}
+	
+	do {
+		errno = 0;
+		if((entry = readdir(start)) != NULL) 
+		{	
+			if(entry->d_type == DT_DIR)
+			{	
+				//if(entry->d_name == jk)
+					
+
+				//cout << entry->d_name << ":" << endl; 
+				x = entry->d_name;
+				if(x[0] == '.' && x[1] == '.')
+					continue;
+				cout << x << ":" << endl;
+				lookup_d(x);
+				
+			}
+		//	x = entry->d_name;						
+
+		//	if(x[0] == '.') 
+		//		continue;
+					
+			//temp.push_back(entry->d_name);
+		}	
+		
+	} while(entry != NULL);
+	
+	//do {
+	//	errno = 0;
+	//	if((entry = readdir(start)) != NULL)
+	//	{
+	//		x = entry->d_name;
+	//	
+	//		if(x[0] == '.')
+	//			continue;
+//
+//			temp.push_back(entry->d_name);
+//		}
+//	} while (entry != NULL);
+
+	if(errno != 0)
+	{
+		perror("error reading directory");
+		closedir(start);
+		return;
+	}
+//	cout << entry->d_name << ":" << endl;
+//
+//	alphabetize(temp);
+//	print_files(temp);
+
+	
+	closedir(start);
+	return;
+}
+
+
 int main( int argc, char *argv[]) {
 	string flag = "-a";
 	string flag2 = "-l";
-//	string flag3 = "-R";
+	string flag3 = "-R";
 //	string flag4 = "-aR";
 //	string flag5 = "-al";
 //	string flag6 = "-lR";
@@ -313,24 +531,30 @@ int main( int argc, char *argv[]) {
 	}
 	int i = 1;
 	for(; i < argc; ++i) {	
-		if(argv[i][0] != '-')
+		if(argv[i][0] != '-'){
 			lookup_d(argv[i]);
+			break;
+		}
+		if(argv[i] == flag)
+			lookup2();
+
+		if(argv[i] == flag2)
+			lookup3();
 		
-			
+		if(argv[i] == flag3)
+			lookup4();
+						
+		if(strstr(argv[i], "a") != NULL)
+		{
+			if(strstr(argv[i], "l") != NULL)
+				lookup31();
+			if(strstr(argv[i], "R") != NULL)
+				lookup41(); 	
+		}
+		
 		
 	}
 	
-	if(argv[1][0] != '-')
-	{
-		lookup_d(argv[1]);
-	}
-	else if(argv[1] == flag)
-	{
-		lookup2();	
-	}
-	else if(argv[1] == flag2)
-	{
-		lookup3();
-	}
+	
 	return 0;
 }
