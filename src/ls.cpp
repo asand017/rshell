@@ -569,20 +569,17 @@ int main( int argc, char *argv[]) {
 	string flag = "-a";
 	string flag2 = "-l";
 	string flag3 = "-R";
-	stringstream d;
+	
 	if(argc == 1)
 	{	
 		lookup();
 		return 0;
 	}
-	//for(int k = 0; k < argc; ++k)
-	//	d << argv[k] << " ";
 		
 	int i = 1;
 	for(; i < argc; ++i) {	
 		if(argv[i][0] != '-'){
 			lookup_d(argv[i]);
-			break;
 		}
 		else if(argv[i] == flag) {
 			if(argc >= 3) {
