@@ -1,3 +1,4 @@
+#include <sstream>
 #include <pwd.h>
 #include <iostream>
 #include <sys/types.h>
@@ -39,34 +40,34 @@ void print_l(vector<string>& x) {
 	ssize_t g = 0;
 	for(unsigned i = 0; i < x.size(); ++i) {
 		now = x[i];
-		int fd = open(now.c_str(), O_RDONLY);
-		if(fd == -1)
-		{
-			perror("open");
-			exit(1);
-		}
+	//	int fd = open(now.c_str(), O_RDONLY);
+	//	if(fd == -1)
+	//	{
+	//		perror("open");
+	//		exit(1);
+	//	}
 		if(stat(now.c_str(), &club) == -1) {
 			perror("stat");
 			exit(1);
 		}
 		g += club.st_size;
-		int fo = close(fd);
-		if(fo == -1)
-		{
-			perror("close");
-			exit(1);
-		}
+	//	int fo = close(fd);
+	//	if(fo == -1)
+	//	{
+	//		perror("close");
+	//		exit(1);
+	//	}
 	
 	}
 	cout << "total " << g << endl;	
 	for(unsigned e = 0; e < x.size(); ++e) {
 		cow = x[e];
-		int fd = open(now.c_str(), O_RDONLY);
-		if(fd == -1)
-		{
-			perror("open");
-			exit(1);
-		}
+	//	int fd = open(now.c_str(), O_RDONLY);
+	//	if(fd == -1)
+	//	{
+	//		perror("open");
+	//		exit(1);
+	//	}
 
 		if(stat(cow.c_str(), &club) == -1) {
 			perror("stat");
@@ -101,16 +102,16 @@ void print_l(vector<string>& x) {
 		cout << setw(5) << club.st_size << " ";
 		cout << setw(5) << club.st_mtime << "sec ";			
 		cout << left << setw(0) << x[e] << endl;
-		int fo = close(fd);
-		if(fo == -1)
-		{
-			perror("close");
-			exit(1);
-		}
+	//	int fo = close(fd);
+	//	if(fo == -1)
+	//	{
+	//		perror("close");
+	//		exit(1);
+	//	}
 	
 
 	}
-//	cerr << "yas" << endl;
+
 	return;
 
 }
@@ -284,12 +285,13 @@ static void lookup3()
 	DIR *start;
 	struct dirent *entry;
 	char* x;
+
 	if((start=opendir(".")) == NULL) 
 	{
 		perror("opendir");
 		return;
 	}
-	
+
 	do {
 		errno = 0;
 		if((entry = readdir(start)) != NULL) 
@@ -298,20 +300,21 @@ static void lookup3()
 
 			if(x[0] == '.') 
 				continue;
-					
+
 			temp.push_back(entry->d_name);
 		}
 			
-		
+
 	} while(entry != NULL);
-	
+
 	alphabetize(temp);
 	print_l(temp);
 
-	if(errno != 0){
-		cerr << "yas" << endl;
+	if(errno != 0){	
+
 		perror("error reading directory");	
 	}
+
 	closedir(start);
 	return;
 }
@@ -566,36 +569,61 @@ int main( int argc, char *argv[]) {
 	string flag = "-a";
 	string flag2 = "-l";
 	string flag3 = "-R";
-
+	stringstream d;
 	if(argc == 1)
 	{	
 		lookup();
 		return 0;
 	}
+	//for(int k = 0; k < argc; ++k)
+	//	d << argv[k] << " ";
+		
 	int i = 1;
 	for(; i < argc; ++i) {	
 		if(argv[i][0] != '-'){
 			lookup_d(argv[i]);
 			break;
 		}
-		if(argv[i] == flag)
-			lookup2();
-
-		if(argv[i] == flag2)
-			lookup3();
-		
-		if(argv[i] == flag3)
-			lookup4();
-						
-		if(strstr(argv[i], "a") != NULL)
+		else if(argv[i] == flag) {
+			if(argc >= 3) {
+			if(argv[2] == flag2)
+				lookup31();
+			else if(argv[2] == flag3)
+				lookup41();
+			}
+			else
+				lookup2();
+			
+		}
+		else if(argv[i] == flag2) {
+			if(argc >= 3) {
+			if(argv[2] == flag)
+				lookup31();
+			else if(argv[2] == flag3)
+				lookup42();
+			}
+			else
+				lookup3();
+			
+		}
+		else if(argv[i] == flag3){
+			if(argc >= 3) {
+			if(argv[2] == flag)
+				lookup41();
+			else if(argv[2] == flag2)
+				lookup42();
+			}
+			else
+				lookup4();
+		}				
+		else if(strstr(argv[i], "a") != NULL)
 		{
 			if(strstr(argv[i], "l") != NULL)
 				lookup31();
 			if(strstr(argv[i], "R") != NULL)
 				lookup41(); 	
 		}
-		
-		if(strstr(argv[i], "l") != NULL)
+		else if(strstr(argv[i], "l") != NULL)
 		{
 			if(strstr(argv[i], "R") != NULL)
 				lookup42();
