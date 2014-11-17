@@ -10,6 +10,9 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <sys/stat.h>
+#include <fcntl.h>
+
 
 using namespace std;
 using namespace boost;
@@ -36,8 +39,6 @@ void execvp(char **ye, int k) {
 
 }
 
-void pipe() {}
-
 void rshell(string &x) {
 	char *argv[9];
 	int i = 0;
@@ -45,7 +46,7 @@ void rshell(string &x) {
 	string saad;
 	vector<string> arg_s;	
 	typedef tokenizer< char_separator<char> > tokenizer;
-	char_separator<char> sep (" ", "#-;||&&", drop_empty_tokens);
+	char_separator<char> sep (" ", "<>>>#-;||&&", drop_empty_tokens);
 	tokenizer tokens(x, sep);
 	for(tokenizer::iterator tok_iter=tokens.begin(); tok_iter != tokens.end(); ++tok_iter) {
 		 if(saad == "-") {
@@ -94,8 +95,82 @@ void rshell(string &x) {
 			}
 		  }
 
+		  if(*tok_iter == "<") {
+			++tok_iter;
+			string cake = *tok_iter;
+			int fd = open(cake.c_str(), O_RDWR);
+			if(fd == -1) {
+				perror("open");
+				exit(1);
+			}	
+			int oldstdin = dup(0);
+			if(oldstdin == -1) {
+				perror("dup");
+				exit(1);
+			}
+			int kd = close(0);
+			if(kd == -1) {
+				perror("close");
+				exit(1);
+			}
+			int grat = dup2(oldstdin, fd);
+			if(grat == -1)
+			{
+				perror("dup2");
+				exit(1);
+			}
+			int blah = close(fd);
+			if(blah == -1)
+			{
+				perror("blah");
+				exit(1);
+			}
+			continue;
+
+		  }
+
+		  if(*tok_iter == ">") {
+			++tok_iter;
+			if(*tok_iter == ">") {
+			
+			}
+			string cake = *tok_iter;
+			int fd = open(cake.c_str(), O_RDWR | O_CREAT);
+			if(fd == -1) {
+				perror("open");
+				exit(1);
+			}
+			int oldstdout = dup(1);
+			if(oldstdout == -1) {
+				perror("dup");
+				exit(1);
+			}
+			int kd = close(1);
+			if(kd == -1) {
+				perror("close");
+				exit(1);
+			}
+			int grat = dup2(oldstdout, fd);
+			if(grat == -1)
+			{
+				perror("grat");
+				exit(1);
+			}
+			int blah = close(fd);
+			if(blah == -1)
+			{
+				perror("close");
+				exit(1);
+			}
+			continue;
+		  }
+
 		  if(*tok_iter == "|") {
 			++tok_iter;
+
+			//piping	
+
+
 			if(*tok_iter == "|") {
 				++tok_iter;
 				rshell(going);
