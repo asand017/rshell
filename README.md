@@ -35,6 +35,23 @@ Functionality:
 rshell includes a special built in exit command, exit. Additionally it features a "$" command prompt at the beginning of 
 each command line.
 
+asand017@cs100:~/rshell/src (master) $ rshell
+$ ls -l; echo test && pwd || ls
+total 88
+-rwx------ 1 asand017 csmajs 17716 Nov 11 23:30 a.out
+-rw------- 1 asand017 csmajs  4803 Nov 11 23:56 cp.cpp
+-rw------- 1 asand017 csmajs  9101 Nov 11 23:56 ls.cpp
+-rwx------ 1 asand017 csmajs 39721 Nov 16 19:34 rshell
+-rwx------ 1 asand017 csmajs  2852 Nov 16 19:34 rshell.cpp
+-rw------- 1 asand017 csmajs  2701 Nov 11 23:56 Timer.h
+test
+/home/csmajs/asand017/rshell/src
+a.out  cp.cpp  ls.cpp  rshell  rshell.cpp  Timer.h
+$ ls # -lR /
+a.out  cp.cpp  ls.cpp  rshell  rshell.cpp  Timer.h
+$ 
+
+
 $ ls
 $  a.out  rshell  rshell.cpp
 $ pwd
@@ -85,36 +102,10 @@ dfwqefweqfeqwfewfewfw
 dfwqefweqfeqwfewfewfw
 
 
-
 Installation:
 To install rshell, enter into the terminal command line, "$make".
 
 Bugs:
-
-rshell fails to accept flags, such as in executing ls -a, ls -l, or rm -rf, etc.
-
-$ ls -a
-ls: cannot access -: No such file or directory
-ls: cannot access a: No such file or directory
-$ rm -rf
-rm: cannot remove '-': No such file or directory
-
-Additionally, rshell fails completely at executing multiple commands on a single line.
-
-$ ls&&pwd
-ls: cannot access &: No such file or directory
-ls: cannot access &: No such file or directory
-ls: cannot access pwd: No such file or directory
-$ ls -a; echo hello; mkdir test
-ls: cannot access -: No such file or directory
-ls: cannot access a: No such file or directory
-ls: cannot access echo: No such file or directory
-ls: cannot access hello: No such file or directory
-ls: cannot access mkdir: No such file or directory
-ls: cannot access test: No such file or directory
-$ exit
-
-rshell also has no implementation of the # character, so there is no functionality for comments.
 
 ls output has somewhat abnoraml spacing, although it is mainly an aesthetic bug. ls -l prints an error message at the end of completion. While the data is correct, this is a bug that was too hidden for me to find in time. Additionally, ls -l can only output the numerical user and group ids. Also, the last modified date is in raw seconds. Combinations of the ls flags will only work with up to two combined flags. 
 
