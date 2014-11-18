@@ -13,6 +13,9 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
+int oldstdin = dup(0);
+int oldstdout = dup(1);
+int oldstderr = dup(2);
 
 using namespace std;
 using namespace boost;
@@ -38,6 +41,7 @@ void execvp(char **ye, int k) {
         }
 
 }
+	
 
 void rshell(string &x) {
 	char *argv[9];
@@ -46,7 +50,7 @@ void rshell(string &x) {
 	string saad;
 	vector<string> arg_s;	
 	typedef tokenizer< char_separator<char> > tokenizer;
-	char_separator<char> sep (" ", "<>>>#-;||&&", drop_empty_tokens);
+	char_separator<char> sep (" ", "<>>>\"#-;||&&", drop_empty_tokens);
 	tokenizer tokens(x, sep);
 	for(tokenizer::iterator tok_iter=tokens.begin(); tok_iter != tokens.end(); ++tok_iter) {
 		 if(saad == "-") {
@@ -97,79 +101,71 @@ void rshell(string &x) {
 
 		  if(*tok_iter == "<") {
 			++tok_iter;
+	
+			if(*tok_iter == "<") {
+				++tok_iter;
+				if(*tok_iter == "<") {
+					//extra credit one
+				}
+			}
 			string cake = *tok_iter;
 			int fd = open(cake.c_str(), O_RDWR);
 			if(fd == -1) {
 				perror("open");
 				exit(1);
-			}	
-			int oldstdin = dup(0);
-			if(oldstdin == -1) {
-				perror("dup");
-				exit(1);
 			}
-			int kd = close(0);
-			if(kd == -1) {
-				perror("close");
-				exit(1);
-			}
-			int grat = dup2(oldstdin, fd);
-			if(grat == -1)
-			{
+			int drag = dup2(fd, 0);
+			if(drag == -1) {
 				perror("dup2");
 				exit(1);
 			}
-			int blah = close(fd);
-			if(blah == -1)
-			{
-				perror("blah");
-				exit(1);
-			}
 			continue;
-
 		  }
+	
 
 		  if(*tok_iter == ">") {
 			++tok_iter;
 			if(*tok_iter == ">") {
-			
+				++tok_iter;
+				string got = *tok_iter;
+				int fd2 = open(got.c_str(), O_RDWR|O_CREAT);
+				if(fd2 == -1) {
+					perror("open");
+					exit(1);
+				}
+				//COME FIX STDERROR LATER
+				int dragon = dup2(fd2, 2);
+				if(dragon == -1) {
+					perror("dup2");
+					exit(1);
+				}
+				continue;	
 			}
-			string cake = *tok_iter;
-			int fd = open(cake.c_str(), O_RDWR | O_CREAT);
-			if(fd == -1) {
-				perror("open");
-				exit(1);
+			else {	
+				string hold = *tok_iter;
+				int fd = open(hold.c_str(), O_RDWR|O_CREAT);
+				if(fd == -1) {
+					perror("open");
+					exit(1);
+				}
+
+				int drag = dup2(fd, 1);
+				if(drag == -1) {
+					perror("dup2");
+					exit(1);
+				}
+				continue;
 			}
-			int oldstdout = dup(1);
-			if(oldstdout == -1) {
-				perror("dup");
-				exit(1);
-			}
-			int kd = close(1);
-			if(kd == -1) {
-				perror("close");
-				exit(1);
-			}
-			int grat = dup2(oldstdout, fd);
-			if(grat == -1)
-			{
-				perror("grat");
-				exit(1);
-			}
-			int blah = close(fd);
-			if(blah == -1)
-			{
-				perror("close");
-				exit(1);
-			}
-			continue;
 		  }
 
 		  if(*tok_iter == "|") {
 			++tok_iter;
-
-			//piping	
-
+			
+			//piping
+			int pipefd[2];
+			pid_t cpid;
+			char buf;
+			
 
 			if(*tok_iter == "|") {
 				++tok_iter;
@@ -195,6 +191,7 @@ void rshell(string &x) {
 		  ++i;
 			
 	}
+	
 	execvp(argv, i);
 
 	return;	
@@ -208,6 +205,22 @@ int main()
 		cout << "$ ";
 		getline(cin, args); 	
 		rshell(args);
+		
+		int ok = dup2(oldstdin, 0);
+		if(ok == -1) {
+			perror("dup2");
+			exit(1);
+		}
+		int ok2 = dup2(oldstdout, 1);
+		if(ok2 == -1) {
+			perror("dup2");
+			exit(1);
+		}
+		int ok3 = dup2(oldstderr, 2);
+		if(ok3 == -1) {
+			perror("dup2");
+			exit(1);
+		}			
 	}                        
 	
 	return 0;
