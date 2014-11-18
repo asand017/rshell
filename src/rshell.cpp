@@ -52,8 +52,7 @@ void rshell(string &x) {
 	typedef tokenizer< char_separator<char> > tokenizer;
 	char_separator<char> sep (" ", "<>>>\"#-;||&&", drop_empty_tokens);
 	tokenizer tokens(x, sep);
-	for(tokenizer::iterator tok_iter=tokens.begin(); tok_iter != tokens.end(); ++tok_iter) {
-		 if(saad == "-") {
+	for(tokenizer::iterator tok_iter=tokens.begin(); tok_iter != tokens.end(); ++tok_iter) {			 if(saad == "-") {
 			going += *tok_iter;
 			going += " ";
 		 	saad.append(*tok_iter);
@@ -105,7 +104,7 @@ void rshell(string &x) {
 			if(*tok_iter == "<") {
 				++tok_iter;
 				if(*tok_iter == "<") {
-					//extra credit one
+					//EXTRA CREDIT 1 HERE!!!!!!!!!!!
 				}
 			}
 			string cake = *tok_iter;
@@ -125,46 +124,32 @@ void rshell(string &x) {
 
 		  if(*tok_iter == ">") {
 			++tok_iter;
-			if(*tok_iter == ">") {
+			if(*tok_iter == ">") 
 				++tok_iter;
-				string got = *tok_iter;
-				int fd2 = open(got.c_str(), O_RDWR|O_CREAT);
-				if(fd2 == -1) {
-					perror("open");
-					exit(1);
-				}
-				//COME FIX STDERROR LATER
-				int dragon = dup2(fd2, 2);
-				if(dragon == -1) {
-					perror("dup2");
-					exit(1);
-				}
-				continue;	
+			
+				
+			string hold = *tok_iter;
+			int fd = open(hold.c_str(), O_RDWR|O_CREAT|O_APPEND, S_IRUSR | S_IWUSR);
+			if(fd == -1) {
+				perror("open");
+				exit(1);
 			}
-			else {	
-				string hold = *tok_iter;
-				int fd = open(hold.c_str(), O_RDWR|O_CREAT);
-				if(fd == -1) {
-					perror("open");
-					exit(1);
-				}
-
-				int drag = dup2(fd, 1);
-				if(drag == -1) {
-					perror("dup2");
-					exit(1);
-				}
-				continue;
+			int drag = dup2(fd, 1);
+			if(drag == -1) {
+				perror("dup2");
+				exit(1);
 			}
+			continue;
+			
 		  }
 
 		  if(*tok_iter == "|") {
 			++tok_iter;
 			
 			//piping
-			int pipefd[2];
-			pid_t cpid;
-			char buf;
+			//int pipefd[2];
+			//pid_t cpid;
+			//char buf;
 			
 
 			if(*tok_iter == "|") {
