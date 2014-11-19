@@ -100,11 +100,28 @@ void rshell(string &x) {
 
 		  if(*tok_iter == "<") {
 			++tok_iter;
-	
+			
 			if(*tok_iter == "<") {
+			//	going += *tok_iter;
 				++tok_iter;
+			//	going += *tok_iter;
 				if(*tok_iter == "<") {
 					//EXTRA CREDIT 1 HERE!!!!!!!!!!!
+				//	++tok_iter;
+				//	going += *tok_iter;
+				//	string leggo;
+				//	if(*tok_iter == "\"") {
+				//		++tok_iter;
+				//		while(*tok_iter != "\"") {
+				//			cout << *tok_iter << endl;
+				//			leggo += *tok_iter;
+				//			leggo += " ";
+				//			++tok_iter;
+				//		}
+				//		leggo += *tok_iter;
+				//		going += " ";
+				//		going += leggo;
+				//	}
 				}
 			}
 			string cake = *tok_iter;
@@ -147,10 +164,23 @@ void rshell(string &x) {
 			++tok_iter;
 			
 			//piping
-			//int pipefd[2];
-			//pid_t cpid;
+			int pipefd[2];
+			pid_t cpid;
 			//char buf;
+			if(pipe(pipefd) == -1) {
+				perror("pipe");
+				exit(1);
+			}
+			cpid = fork();
+			if(cpid == -1) {
+				perror("fork");
+				exit(1);
+			}
+			if(cpid == 0) {
+				//pipe example c+
+			}
 			
+
 
 			if(*tok_iter == "|") {
 				++tok_iter;
