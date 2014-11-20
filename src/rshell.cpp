@@ -66,6 +66,21 @@ void rshell(string &x) {
                   
 		  }
 
+	//	  if((*tok_iter).size() == 1) {
+	//		going += *tok_iter;
+		//	cerr << mok << endl;
+	//		++tok_iter;
+	//		going += *tok_iter;
+		//	cerr << mok << endl;
+	//		++tok_iter;
+	//		going += *tok_iter;
+	//		going += " ";
+		//	cerr << mok << endl;
+	//		++tok_iter;
+	//		continue;		
+	
+	//	  }
+
                   if(*tok_iter == "-") {
                         saad = *tok_iter;
 			going += *tok_iter;
@@ -291,6 +306,7 @@ void rshell(string &x) {
 							mok += *tok_iter;
 							mok += " ";
 							cerr << mok << endl;
+							++tok_iter;
 							continue;
 						}
 						mok += *tok_iter;
@@ -333,9 +349,9 @@ void rshell(string &x) {
 				}
 					//if(-1 == dup2(savestdin, 0))
 					//	perror("dup2");
-					continue;
 				}
 				//tok_iter = coward;
+				continue;
 			}
 			//end piping	
 
@@ -348,6 +364,33 @@ void rshell(string &x) {
 				argv[i] = new char[12];
 			}	
 		
+		  }
+
+		  string lop = *tok_iter;
+		  string llop;
+		  if((*tok_iter).size() == 1) {
+			++tok_iter;
+			if(*tok_iter == "-") {
+				llop += lop;
+				llop += *tok_iter;
+		//		cerr << mok << endl;
+				++tok_iter;
+		//		llop += *tok_iter;
+		//		cerr << mok << endl;
+		//		++tok_iter;
+				llop += *tok_iter;
+				llop += " ";
+		//		cerr << mok << endl;
+				++tok_iter;
+			}
+			going += llop;
+			going += " ";
+			
+			arg_s.push_back(llop);
+			argv[i] = new char[12];
+			strcpy(argv[i], const_cast<char*>(arg_s[i].c_str()));
+			continue;		
+	
 		  }
 
 		  going += *tok_iter;
