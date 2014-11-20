@@ -141,23 +141,35 @@ void rshell(string &x) {
 
 		  if(*tok_iter == ">") {
 			++tok_iter;
-			if(*tok_iter == ">") 
+			if(*tok_iter == ">") {
 				++tok_iter;
-			
-				
-			string hold = *tok_iter;
-			int fd = open(hold.c_str(), O_RDWR|O_CREAT|O_APPEND, S_IRUSR | S_IWUSR);
-			if(fd == -1) {
-				perror("open");
-				exit(1);
+				string swerve = *tok_iter;
+				int fd2 = open(swerve.c_str(), O_RDWR|O_CREAT|O_APPEND, S_IRUSR|S_IWUSR);
+				if(fd2 == -1) {
+					perror("open");
+					exit(1);
+				}
+				int grag = dup2(fd2, 1);
+				if(grag == -1) {
+					perror("dup2");
+					exit(1);
+				}
+				continue;
 			}
-			int drag = dup2(fd, 1);
-			if(drag == -1) {
-				perror("dup2");
-				exit(1);
+			else {	
+				string hold = *tok_iter;
+				int fd = open(hold.c_str(), O_RDWR|O_CREAT|O_TRUNC, S_IRUSR | S_IWUSR);
+				if(fd == -1) {
+					perror("open");
+					exit(1);
+				}
+				int drag = dup2(fd, 1);
+				if(drag == -1) {
+					perror("dup2");
+					exit(1);
+				}
+				continue;
 			}
-			continue;
-			
 		  }
 
 		  if(*tok_iter == "|") {
