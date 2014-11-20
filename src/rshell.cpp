@@ -262,12 +262,12 @@ void rshell(string &x) {
 					exit(1);
 				}
 				else if(cpid2 == 0) {
-					if(-1 == dup2(pipefd2[0], 0))
+					if(-1 == dup2(pipefd2[1], 1))
 					{
 						perror("dup2");
 						exit(1);
 					}
-					if(-1 == close(pipefd2[1])) 
+					if(-1 == close(pipefd2[0])) 
 					{
 						perror("close");
 						exit(1);
@@ -296,17 +296,17 @@ void rshell(string &x) {
 					exit(1);
 				}
 				else if(cpid > 0) {
-					int savestdout;
-					if(-1 == (savestdout = dup(1)))
+					int savestdin;
+					if(-1 == (savestdin = dup(0)))
 					{
 						perror("dup");
 						exit(1);
 					}
-					if(-1 == dup2(pipefd2[1], 1)) {
+					if(-1 == dup2(pipefd2[0], 0)) {
 						perror("dup2");
 						exit(1);
 					}
-					if(-1 == close(pipefd2[0])) {
+					if(-1 == close(pipefd2[1])) {
 						perror("close");
 						exit(1);
 					}
@@ -314,11 +314,12 @@ void rshell(string &x) {
 						perror("waitpid");
 						exit(1);
 					}
-					if(-1 == dup2(savestdout, 1))
-						perror("dup2");
+					//if(-1 == dup2(savestdout, 1))
+					//	perror("dup2");
 				}
-					if(-1 == dup2(savestdin, 0))
-						perror("dup2");
+					//if(-1 == dup2(savestdin, 0))
+					//	perror("dup2");
+					continue;
 				}
 				/*
 				coward = tok_iter;
