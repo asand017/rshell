@@ -107,24 +107,42 @@ void rshell(string &x) {
 			//	going += *tok_iter;
 				if(*tok_iter == "<") {
 					//EXTRA CREDIT 1 HERE!!!!!!!!!!!
-				//	++tok_iter;
-				//	going += *tok_iter;
-				//	string leggo;
-				//	if(*tok_iter == "\"") {
-				//		++tok_iter;
-				//		while(*tok_iter != "\"") {
-				//			cout << *tok_iter << endl;
-				//			leggo += *tok_iter;
-				//			leggo += " ";
-				//			++tok_iter;
-				//		}
-				//		leggo += *tok_iter;
-				//		going += " ";
-				//		going += leggo;
-				//	}
+					string blah = "ok";
+					void *buf;
+					int fd2 = creat(const_cast<char*>(blah.c_str()), S_IRWXU);
+					if(fd2 == -1) {
+						perror("creat");
+						exit(1);
+					} 
+					++tok_iter;
+					going += *tok_iter;
+					string leggo;
+					if(*tok_iter == "\"") {
+						++tok_iter;
+						while(*tok_iter != "\"") {
+							cout << *tok_iter << endl;
+							leggo += *tok_iter;
+							leggo += " ";
+							++tok_iter;
+						}
+						buf = malloc(leggo.length());
+						//leggo += *tok_iter;
+						//going += " ";
+						//going += leggo;
+						int bag = write(fd2, buf, leggo.length());
+						if(bag == -1) {
+							perror("write");
+							exit(1);
+						}
+					}
 				}
 			}
 			string cake = *tok_iter;
+			int savestdin;
+			if(-1 == (savestdin = dup(0))) {
+				perror("dup");
+				exit(1);
+			}
 			int fd = open(cake.c_str(), O_RDWR);
 			if(fd == -1) {
 				perror("open");
@@ -135,6 +153,11 @@ void rshell(string &x) {
 				perror("dup2");
 				exit(1);
 			}
+			//if(-1 == dup2(savestdin, 0))
+			//{
+			//	perror("dup2");
+			//	exit(1);
+			//}
 			continue;
 		  }
 	
@@ -174,6 +197,7 @@ void rshell(string &x) {
 
 		  if(*tok_iter == "|") {
 			++tok_iter;
+			tokenizer::iterator coward;
 			if(*tok_iter != "|") {
 			//piping
 			int pipefd[2];
@@ -226,6 +250,78 @@ void rshell(string &x) {
 					perror("waitpid");
 					exit(1);
 				}
+				int pipefd2[2];
+				pid_t cpid2;
+				if(pipe(pipefd2) == -1) {
+					perror("pipe");
+					exit(1);
+				}
+				cpid2 = fork();
+				if(cpid2 == -1) {
+					perror("fork");
+					exit(1);
+				}
+				else if(cpid2 == 0) {
+					if(-1 == dup2(pipefd2[0], 0))
+					{
+						perror("dup2");
+						exit(1);
+					}
+					if(-1 == close(pipefd2[1])) 
+					{
+						perror("close");
+						exit(1);
+					}
+					coward = tok_iter;
+					char *toby[9];
+					int l = 0;
+					vector<string> baby;
+					string mok;
+					while(tok_iter != tokens.end()) {
+						if(*tok_iter == "|")
+							rshell(going);
+
+						mok += *tok_iter;
+						mok += " ";
+						baby.push_back(*tok_iter);
+						toby[l] = new char [12];
+						strcpy(toby[l], const_cast<char*>(baby[l].c_str()));
+						going += mok;
+						++l;
+					}
+					toby[l] = NULL;
+					if(-1 == execvp(toby[0], toby))	
+						perror("execvp");
+					
+					exit(1);
+				}
+				else if(cpid > 0) {
+					int savestdout;
+					if(-1 == (savestdout = dup(1)))
+					{
+						perror("dup");
+						exit(1);
+					}
+					if(-1 == dup2(pipefd2[1], 1)) {
+						perror("dup2");
+						exit(1);
+					}
+					if(-1 == close(pipefd2[0])) {
+						perror("close");
+						exit(1);
+					}
+					if(-1 == waitpid(cpid2, &cpid2, 0)) {
+						perror("waitpid");
+						exit(1);
+					}
+					if(-1 == dup2(savestdout, 1))
+						perror("dup2");
+				}
+					if(-1 == dup2(savestdin, 0))
+						perror("dup2");
+				}
+				/*
+				coward = tok_iter;
 				char *toby[9];	
 				int l = 0;
 				vector<string> baby;
@@ -240,11 +336,11 @@ void rshell(string &x) {
 						perror("dup2");
 						exit(1);
 					}
-					if(-1 == close(pipefd[1]))
-					{
-						perror("close");
-						exit(1);	
-					}
+					//if(-1 == close(pipefd[1]))
+					//{
+					//	perror("close");
+					//	exit(1);	
+					//}
 					while(tok_iter != tokens.end()) {
 						if(*tok_iter == "|")
 							rshell(going);
@@ -258,10 +354,28 @@ void rshell(string &x) {
 						//APPEND TOBY TO ARGV SOMEHOW
 						++l;		
 					}
+					toby[l] = NULL;
+					if(-1 == execvp(toby[0], toby)) {
+						perror("execvp");
+					}
+					exit(1);
 				}
+				else if(kpid > 0) {
+					if(-1 == waitpid(kpid, &kpid, 0)) {
+						perror("waitpid");
+						exit(1);
+					}
+				}				
 				
+				tok_iter = coward;
 				
-			}
+				if(-1 == dup2(savestdin, 0)) {
+					perror("dup2");
+					exit(1);
+				}
+				}
+				continue;
+				*/
 			}
 			//end piping	
 
