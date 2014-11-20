@@ -318,6 +318,7 @@ void rshell(string &x) {
 						//going += mok;
 					//	++l;
 					}
+					cerr << mok << "HEERRRRRREEEEEE" << endl;
 					rshell(mok);
 					//toby[l] = NULL;
 					//if(-1 == execvp(toby[0], toby))	
@@ -365,13 +366,15 @@ void rshell(string &x) {
 			}	
 		
 		  }
-
+		  
+		  tokenizer::iterator daw = tok_iter;                  
 		  string lop = *tok_iter;
 		  string llop;
 		  if((*tok_iter).size() == 1) {
 			++tok_iter;
 			if(*tok_iter == "-") {
 				llop += lop;
+				llop += " ";
 				llop += *tok_iter;
 		//		cerr << mok << endl;
 				++tok_iter;
@@ -382,15 +385,18 @@ void rshell(string &x) {
 				llop += " ";
 		//		cerr << mok << endl;
 				++tok_iter;
-			}
-			going += llop;
-			going += " ";
 			
-			arg_s.push_back(llop);
-			argv[i] = new char[12];
-			strcpy(argv[i], const_cast<char*>(arg_s[i].c_str()));
-			continue;		
-	
+				going += llop;
+				going += " ";
+		
+				cerr << llop << "ADASDOAKSDOKAS" << endl;	
+				arg_s.push_back(llop);
+				argv[i] = new char[12];
+				strcpy(argv[i], const_cast<char*>(arg_s[i].c_str()));
+				++i;
+				continue;		
+			}
+			tok_iter = daw;
 		  }
 
 		  going += *tok_iter;
