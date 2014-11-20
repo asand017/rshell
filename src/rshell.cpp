@@ -273,25 +273,39 @@ void rshell(string &x) {
 						exit(1);
 					}
 					coward = tok_iter;
-					char *toby[9];
-					int l = 0;
-					vector<string> baby;
+					//char *toby[9];
+					//int l = 0;
+					//vector<string> baby;
 					string mok;
 					while(tok_iter != tokens.end()) {
 						if(*tok_iter == "|")
-							rshell(going);
-
+							break;
+						cerr << *tok_iter << endl;
+						if((*tok_iter).size() == 1) {
+							mok += *tok_iter;
+							cerr << mok << endl;
+							++tok_iter;
+							mok += *tok_iter;
+							cerr << mok << endl;
+							++tok_iter;
+							mok += *tok_iter;
+							mok += " ";
+							cerr << mok << endl;
+							continue;
+						}
 						mok += *tok_iter;
 						mok += " ";
-						baby.push_back(*tok_iter);
-						toby[l] = new char [12];
-						strcpy(toby[l], const_cast<char*>(baby[l].c_str()));
-						going += mok;
-						++l;
+						++tok_iter;
+					//	baby.push_back(*tok_iter);
+					//	toby[l] = new char [12];
+					//	strcpy(toby[l], const_cast<char*>(baby[l].c_str()));
+						//going += mok;
+					//	++l;
 					}
-					toby[l] = NULL;
-					if(-1 == execvp(toby[0], toby))	
-						perror("execvp");
+					rshell(mok);
+					//toby[l] = NULL;
+					//if(-1 == execvp(toby[0], toby))	
+					//	perror("execvp");
 					
 					exit(1);
 				}
@@ -321,62 +335,7 @@ void rshell(string &x) {
 					//	perror("dup2");
 					continue;
 				}
-				/*
-				coward = tok_iter;
-				char *toby[9];	
-				int l = 0;
-				vector<string> baby;
-				string mok;
-				int kpid = fork();
-				if(kpid == -1) {
-					perror("fork");
-					exit(1);
-				}
-				else if(kpid == 0) {
-					if(-1 == dup2(pipefd[0], 0)) {
-						perror("dup2");
-						exit(1);
-					}
-					//if(-1 == close(pipefd[1]))
-					//{
-					//	perror("close");
-					//	exit(1);	
-					//}
-					while(tok_iter != tokens.end()) {
-						if(*tok_iter == "|")
-							rshell(going);
-	
-						mok += *tok_iter;
-						mok += " ";	
-						baby.push_back(*tok_iter);
-						toby[l] = new char[12];
-						strcpy(toby[i], const_cast<char*>(baby[l].c_str()));
-						going += mok;
-						//APPEND TOBY TO ARGV SOMEHOW
-						++l;		
-					}
-					toby[l] = NULL;
-					if(-1 == execvp(toby[0], toby)) {
-						perror("execvp");
-					}
-					exit(1);
-				}
-				else if(kpid > 0) {
-					if(-1 == waitpid(kpid, &kpid, 0)) {
-						perror("waitpid");
-						exit(1);
-					}
-				}				
-				
-				tok_iter = coward;
-				
-				if(-1 == dup2(savestdin, 0)) {
-					perror("dup2");
-					exit(1);
-				}
-				}
-				continue;
-				*/
+				//tok_iter = coward;
 			}
 			//end piping	
 
