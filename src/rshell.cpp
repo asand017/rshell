@@ -13,11 +13,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-int oldstdin = dup(0);
-int oldstdout = dup(1);
-int oldstderr = dup(2);
-
 using namespace std;
+
 using namespace boost;
 
 void execvp(char **ye, int k) {
@@ -549,6 +546,24 @@ void rshell(string &x) {
 
 int main()
 {
+	int oldstdin = dup(0);
+
+	if(oldstdin == -1) 
+		perror("dup");
+
+
+	int oldstdout = dup(1);
+
+	if(oldstdout == -1) 
+		perror("dup");	
+
+
+	int oldstderr = dup(2);
+
+	if(oldstderr == -1) 
+		perror("dup");	
+
+
 	string args;
 	while(1 != 2)
 	{
