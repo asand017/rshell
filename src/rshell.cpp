@@ -288,41 +288,44 @@ void rshell(string &x) {
 						exit(1);
 					}
 					coward = tok_iter;
-					//char *toby[9];
-					//int l = 0;
-					//vector<string> baby;
+					char *toby[9];
+					int l = 0;
+					vector<string> baby;
 					string mok;
 					while(tok_iter != tokens.end()) {
 						if(*tok_iter == "|")
 							break;
-						cerr << *tok_iter << endl;
+						//cerr << *tok_iter << endl;
 						if((*tok_iter).size() == 1) {
 							mok += *tok_iter;
-							cerr << mok << endl;
+						//	cerr << mok << endl;
 							++tok_iter;
 							mok += *tok_iter;
-							cerr << mok << endl;
+						//	cerr << mok << endl;
 							++tok_iter;
 							mok += *tok_iter;
 							mok += " ";
-							cerr << mok << endl;
+						//	cerr << mok << endl;
 							++tok_iter;
 							continue;
 						}
-						mok += *tok_iter;
+						mok += *tok_iter; //NEED TO PARSE MOK TO EXECUTE EXECVP - COME BACK LATER
 						mok += " ";
-						++tok_iter;
-					//	baby.push_back(*tok_iter);
-					//	toby[l] = new char [12];
-					//	strcpy(toby[l], const_cast<char*>(baby[l].c_str()));
+						//++tok_iter;
+						baby.push_back(mok);
+						toby[l] = new char [12];
+						strcpy(toby[l], const_cast<char*>(baby[l].c_str()));
 						//going += mok;
-					//	++l;
+						++l;
+						++tok_iter;
 					}
 					cerr << mok << "HEERRRRRREEEEEE" << endl;
-					rshell(mok);
-					//toby[l] = NULL;
-					//if(-1 == execvp(toby[0], toby))	
-					//	perror("execvp");
+					//rshell(mok);
+					cerr << "BLAH BLAH BLAH" << endl;
+
+					toby[l] = NULL;
+					if(-1 == execvp(toby[0], toby))	
+						perror("execvp");
 					
 					exit(1);
 				}
@@ -374,7 +377,6 @@ void rshell(string &x) {
 			++tok_iter;
 			if(*tok_iter == "-") {
 				llop += lop;
-				llop += " ";
 				llop += *tok_iter;
 		//		cerr << mok << endl;
 				++tok_iter;
@@ -389,7 +391,7 @@ void rshell(string &x) {
 				going += llop;
 				going += " ";
 		
-				cerr << llop << "ADASDOAKSDOKAS" << endl;	
+			//	cerr << llop << "ADASDOAKSDOKAS" << endl;	
 				arg_s.push_back(llop);
 				argv[i] = new char[12];
 				strcpy(argv[i], const_cast<char*>(arg_s[i].c_str()));
@@ -401,7 +403,8 @@ void rshell(string &x) {
 
 		  going += *tok_iter;
 		  going += " ";
-
+		  cout << going << endl;	
+		  
 		  arg_s.push_back(*tok_iter);
 		  argv[i] = new char[12];
 	 	  strcpy(argv[i], const_cast<char*>(arg_s[i].c_str()));
