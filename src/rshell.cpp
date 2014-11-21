@@ -52,7 +52,14 @@ void rshell(string &x) {
 	typedef tokenizer< char_separator<char> > tokenizer;
 	char_separator<char> sep (" ", "<>>>\"#-;||&&", drop_empty_tokens);
 	tokenizer tokens(x, sep);
-	for(tokenizer::iterator tok_iter=tokens.begin(); tok_iter != tokens.end(); ++tok_iter) {			 if(saad == "-") {
+	for(tokenizer::iterator tok_iter=tokens.begin(); tok_iter != tokens.end(); ++tok_iter) {			 
+		
+		if(saad == "-") {
+			if(*tok_iter == "-") {
+				saad += *tok_iter;
+				going += *tok_iter;
+				continue;
+			}
 			going += *tok_iter;
 			going += " ";
 		 	saad.append(*tok_iter);
@@ -66,25 +73,9 @@ void rshell(string &x) {
                   
 		  }
 
-	//	  if((*tok_iter).size() == 1) {
-	//		going += *tok_iter;
-		//	cerr << mok << endl;
-	//		++tok_iter;
-	//		going += *tok_iter;
-		//	cerr << mok << endl;
-	//		++tok_iter;
-	//		going += *tok_iter;
-	//		going += " ";
-		//	cerr << mok << endl;
-	//		++tok_iter;
-	//		continue;		
-	
-	//	  }
-
                   if(*tok_iter == "-") {
                         saad = *tok_iter;
 			going += *tok_iter;
-			going += " ";
                         continue;       
                   }
 
@@ -121,35 +112,53 @@ void rshell(string &x) {
 				++tok_iter;
 			//	going += *tok_iter;
 				if(*tok_iter == "<") {
-					//EXTRA CREDIT 1 HERE!!!!!!!!!!!
-					string blah = "ok";
-					void *buf;
-					int fd2 = creat(const_cast<char*>(blah.c_str()), S_IRWXU);
+					//EXTRA CREDIT 1 HERE!!!!!!!!!!
+					char *buf = new char[sizeof(BUFSIZ)];
+					int fd2 = open(".manny", O_CREAT|O_RDWR|O_TRUNC, S_IRUSR|S_IWUSR);
 					if(fd2 == -1) {
-						perror("creat");
+						perror("open");
 						exit(1);
-					} 
+					}
+					
+					int bag = write(fd2, buf, BUFSIZ); 
+					if(bag == -1) {
+						perror("write");
+						exit(1);
+					}
 					++tok_iter;
 					going += *tok_iter;
 					string leggo;
 					if(*tok_iter == "\"") {
 						++tok_iter;
 						while(*tok_iter != "\"") {
+							int bag = write(fd2, buf, BUFSIZ); 
+							if(bag == -1) {
+								perror("write");
+								exit(1);
+							}	
+	
 							cout << *tok_iter << endl;
 							leggo += *tok_iter;
 							leggo += " ";
 							++tok_iter;
 						}
-						buf = malloc(leggo.length());
 						//leggo += *tok_iter;
 						//going += " ";
 						//going += leggo;
-						int bag = write(fd2, buf, leggo.length());
-						if(bag == -1) {
-							perror("write");
-							exit(1);
-						}
+						//int bag = write(fd2, buf, BUFSIZ);
+						//if(bag == -1) {
+						//	perror("write");
+						//	exit(1);
+						//}
 					}
+					int claw = read(fd2, buf, BUFSIZ);
+					if(claw == -1)
+						perror("read");
+					
+					int mk = close(fd2);
+					if(mk == -1)
+						perror("close");
+					delete [] buf;
 				}
 			}
 			string cake = *tok_iter;
@@ -307,26 +316,36 @@ void rshell(string &x) {
 							mok += " ";
 						//	cerr << mok << endl;
 							++tok_iter;
+							baby.push_back(mok);
+							toby[l] = new char[12];
+							strcpy(toby[l], const_cast<char*>(baby[l].c_str()));
+							++l;
+							cerr << toby[l] << "   " << "TOBY!!!!!!" << endl;
+							mok.erase(mok.begin(), mok.end());
 							continue;
 						}
 						mok += *tok_iter; //NEED TO PARSE MOK TO EXECUTE EXECVP - COME BACK LATER
-						mok += " ";
+						cerr << mok << endl;
 						//++tok_iter;
 						baby.push_back(mok);
 						toby[l] = new char [12];
 						strcpy(toby[l], const_cast<char*>(baby[l].c_str()));
 						//going += mok;
+						cerr << toby[l] << "   " << "EFWQFEWFWFDFSAFSA" << endl;
 						++l;
+						mok.erase(mok.begin(), mok.end());
 						++tok_iter;
 					}
 					cerr << mok << "HEERRRRRREEEEEE" << endl;
 					//rshell(mok);
 					cerr << "BLAH BLAH BLAH" << endl;
-
+					//cerr << toby[0] << endl;
 					toby[l] = NULL;
 					if(-1 == execvp(toby[0], toby))	
 						perror("execvp");
 					
+					cerr << "DID IT!" << endl;
+						
 					exit(1);
 				}
 				else if(cpid > 0) {
