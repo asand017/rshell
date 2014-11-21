@@ -1,0 +1,69 @@
+Script started on Thu 20 Nov 2014 10:53:46 PM PST
+~
+asand017@hammer $ cs100
+[0;91m
+===============================================================================
+|                                                                             |
+| You have enabled settings specific for cs100.                               |
+|                                                                             |
+===============================================================================
+[0m
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m (master) [0;36m$[0m cs[Kd rshell
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (redirect) [0;36m$[0m make
+[ -e ./bin ] || mkdir bin
+g++ -Wall -Werror -ansi -pedantic ./src/cp.cpp -o ./bin/cp
+[ -e ./bin ] || mkdir bin 
+g++ -Wall -Werror -ansi -pedantic ./src/rshell.cpp -o ./bin/rshell
+[ -e ./bin ] || mkdir bin
+g++ -Wall -Werror -ansi -pedantic ./src/ls.cpp -o ./bin/ls
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (redirect) [0;36m$[0m bin/rshell
+$ echo test > testing #testing output redirection, >
+$ cat testing
+test
+$ echo test2 >> testing #testing output redirection, >>
+$ cat testing
+test
+test2
+$ echo test3 > testing #demonstarting      rating > output redirecton repla     overwrites present text
+$ cat testing
+test3
+$ cat   ls  echo A > echo B > echo C > echo D > testing
+$ cat testing
+A B C D
+$ cat < ls  testing > testing2 #input and oup tput redirection at the same time
+$ cat < testing2 #input redirection
+A B C D
+$ echo A > echo B > echo C > echo D > echo E > testing #  multiple outp  tput redirections
+$ cat testing
+A B C D E
+$ ls > testing #taking in output from a command
+$ cat testing
+bin
+echo
+LICENSE
+Makefile
+README.md
+src
+testing
+testing2
+tests
+$ ls > testing; pwd >> testing #redirection with connector^[[D             a connector
+$ cat testing
+bin
+echo
+LICENSE
+Makefile
+README.md
+src
+testing
+testing2
+tests
+/home/csmajs/asand017/rshell
+$ exit
+[s%%%%%%%%%%[u[0;32masand017[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (redirect) [0;36m$[0m exit
+exit
+~
+asand017@hammer $ exit
+exit
+
+Script done on Thu 20 Nov 2014 11:08:48 PM PST
