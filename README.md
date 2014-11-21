@@ -25,6 +25,7 @@ Summary:
 
 rshell attempts to mimic a bash-like terminal shell. rshell accepts bash command executables
 that exist in /bin, however it does not function with built-in bash commands, such as cd.
+rshell can also execute output (>, >>)  and input (<) redirection.
 
 ls mimics the GNU ls command and is functional for the "-a", "-l", and "-R" flags.
 
@@ -50,6 +51,21 @@ a.out  cp.cpp  ls.cpp  rshell  rshell.cpp  Timer.h
 $ ls # -lR /
 a.out  cp.cpp  ls.cpp  rshell  rshell.cpp  Timer.h
 $ 
+
+rshell input and output redirection.
+$ echo test > testing
+$ cat testing
+test
+$ echo A > echo B > echo C > echo D > testing
+$ cat testing
+A B C D
+$ cat < testing
+A B C D
+$ echo swagger >> testing
+$ cat testing
+A B C D
+swagger
+$ cat < ls > testing
 
 
 $ ls
@@ -108,6 +124,8 @@ To install rshell, enter into the terminal command line, "$make".
 Bugs:
 
 ls output has somewhat abnoraml spacing, although it is mainly an aesthetic bug. ls -l prints an error message at the end of completion. While the data is correct, this is a bug that was too hidden for me to find in time. Additionally, ls -l can only output the numerical user and group ids. Also, the last modified date is in raw seconds. Combinations of the ls flags will only work with up to two combined flags. 
+
+rshell is unable to complete piped commands. It has difficulty parsing the right side of the pipe and as a result cannont complete the piping process.
 
 Additional Files:
 
