@@ -28,7 +28,7 @@ void execvp(char **ye, int k) {
         	int r = execvp(ye[0], ye);
                 if(r == -1) {
                        perror("execvp");
-                       exit(1);
+                      
                 }
         }
       	else {
@@ -66,6 +66,7 @@ void rshell(string &x) {
 			if(*tok_iter == "exit")
 				exit(0);
                         ++i;
+			delete [] argv[i]; //HEERRREEE
                         continue;               
                   
 		  }
@@ -86,7 +87,7 @@ void rshell(string &x) {
                         going.erase(0, going.find(*tok_iter, i));
                         arg_s.clear();
                         i = 0;
-                        argv[i] = new char[12];
+//                        argv[i] = new char[12];
 	          }
 		
 		  if(*tok_iter == "&") {
@@ -97,7 +98,7 @@ void rshell(string &x) {
 				going.erase(0, going.find(*tok_iter, i));
 				arg_s.clear();
 				i = 0;
-				argv[i] = new char[12];
+//				argv[i] = new char[12];
 			}
 		  }
 
@@ -105,23 +106,10 @@ void rshell(string &x) {
 			++tok_iter;
 			
 			if(*tok_iter == "<") {
-			//	going += *tok_iter;
+	
 				++tok_iter;
-			//	going += *tok_iter;
+		
 				if(*tok_iter == "<") {
-					//EXTRA CREDIT 1 HERE!!!!!!!!!!
-				//	char *buf = new char[sizeof(BUFSIZ)];
-				//	int fd5 = open("ok.string", O_CREAT | O_WRONLY, S_IWUSR);
-				//	if(fd5 == -1) {
-				//		perror("open");
-				//		exit(1);
-				//	}
-					
-				//	int bag = write(fd5, buf, BUFSIZ); 
-				//	if(bag == -1) {
-				//		perror("write");
-				//		exit(1);
-				//	}
 					++tok_iter;
 					going += *tok_iter;
 					string leggo;
@@ -450,7 +438,12 @@ void rshell(string &x) {
 							if(-1 == execvp(toby[0], toby)) {
 								perror("execvp");
 							}
-						
+							int e = 0;
+							while(e <= l) {
+								delete [] toby[e];
+								++e;
+							}
+							//delete [] *toby;	
 							exit(1);
 					}
 					else if(cpid > 0) {
@@ -488,7 +481,7 @@ void rshell(string &x) {
 				going.erase(0, going.find(*tok_iter, i));
 				arg_s.clear();
 				i = 0;
-				argv[i] = new char[12];
+			//	argv[i] = new char[12];
 			}	
 		
 		  }
@@ -514,7 +507,7 @@ void rshell(string &x) {
 				going += llop;
 				going += " ";
 		
-			//	cerr << llop << "ADASDOAKSDOKAS" << endl;	
+
 				arg_s.push_back(llop);
 				argv[i] = new char[12];
 				strcpy(argv[i], const_cast<char*>(arg_s[i].c_str()));
@@ -526,7 +519,7 @@ void rshell(string &x) {
 
 		  going += *tok_iter;
 		  going += " ";
-//		  cout << going << endl;	
+
 		  
 		  arg_s.push_back(*tok_iter);
 		  argv[i] = new char[12];
@@ -534,13 +527,18 @@ void rshell(string &x) {
 		  
 		  if(*tok_iter == "exit")
 			exit(0);
-		
+		  
 		  ++i;
 			
 	}
 	
 	execvp(argv, i);
-
+	int v = 0;
+	while(v <= i) {
+		delete [] argv[v];
+		++v;
+	}
+	//delete [] *argv;
 	return;	
 }
 
@@ -563,11 +561,19 @@ int main()
 	if(oldstderr == -1) 
 		perror("dup");	
 
-
+	char *x = getlogin();
+	if(x == NULL) {
+		perror("getlogin");
+	}
+	char blak [12];	
+	size_t len = 20;
+	if(-1 == gethostname(blak, len)) {
+		perror("gethostname");	
+	}
 	string args;
 	while(1 != 2)
-	{
-		cout << "$ ";
+	{	
+		cout << x << "@" << blak << "$ ";
 		getline(cin, args); 	
 		rshell(args);
 		
