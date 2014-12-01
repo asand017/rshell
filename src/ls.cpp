@@ -209,7 +209,10 @@ static void lookup()//ls (no flags)
 	if(errno != 0)
 		perror("error reading directory");	
 	
-	closedir(start);
+	if(-1 == closedir(start))
+	{
+		perror("closedir");
+	}
 	return;
 }
 
@@ -238,7 +241,10 @@ static void lookup2()
 	if(errno != 0)
 		perror("error reading directory");	
 	
-	closedir(start);
+	if(-1 == closedir(start))
+	{
+		perror("closedir");
+	}
 	return;
 }
 
@@ -273,7 +279,10 @@ static void lookup31()
 	if(errno != 0)
 		perror("error reading directory");	
 	
-	closedir(start);
+	if(-1 == closedir(start))
+	{
+		perror("closedir");
+	}
 	return;
 }
 
@@ -315,7 +324,10 @@ static void lookup3()
 		perror("error reading directory");	
 	}
 
-	closedir(start);
+	if(-1 == closedir(start))
+	{
+		perror("closedir");
+	}
 	return;
 }
 
@@ -346,7 +358,10 @@ static void lookup_d1(char* q)
 	if(errno != 0)
 		perror("error reading directory");	
 	
-	closedir(start);
+	if(-1 == closedir(start))
+	{
+		perror("closedir");
+	}
 	return;
 }
 
@@ -383,7 +398,10 @@ static void dlookup_d(char* q)
 	if(errno != 0)
 		perror("error reading directory");	
 	
-	closedir(start);
+	if(-1 == closedir(start))
+	{
+		perror("closedir");
+	}
 	return;
 }
 
@@ -421,7 +439,10 @@ static void lookup_d(char* q)
 	if(errno != 0)
 		perror("error reading directory");	
 	
-	closedir(start);
+	if(-1 == closedir(start))
+	{
+		perror("closedir");	
+	}
 	return;
 }
 
@@ -437,7 +458,10 @@ static void lookup41()
 	if((start=opendir(".")) == NULL) 
 	{
 		perror("opendir");
-		closedir(start);
+		if(-1 == closedir(start))
+		{
+			perror("closedir");
+		}
 		return;
 	}
 	
@@ -463,12 +487,18 @@ static void lookup41()
 	if(errno != 0)
 	{
 		perror("error reading directory");
-		closedir(start);
+		if(-1 == closedir(start))
+		{
+			perror("closedir");
+		}
 		return;
 	}
 
 	
-	closedir(start);
+	if(-1 == closedir(start))
+	{
+		perror("closedir");	
+	}
 	return;
 }
 
@@ -485,7 +515,10 @@ static void lookup4()
 	if((start=opendir(".")) == NULL) 
 	{
 		perror("opendir");
-		closedir(start);
+		if(-1 == closedir(start))
+		{
+			perror("closedir");
+		}
 		return;
 	}
 	
@@ -510,10 +543,16 @@ static void lookup4()
 	if(errno != 0)
 	{
 		perror("error reading directory");
-		closedir(start);
+		if(-1 == closedir(start))
+		{
+			perror("closedir");
+		}
 		return;
 	}
-	closedir(start);
+	if(-1 == closedir(start))
+	{
+		perror("closedir");
+	}
 	return;
 }
 
@@ -529,7 +568,11 @@ static void lookup42()
 	if((start=opendir(".")) == NULL) 
 	{
 		perror("opendir");
-		closedir(start);
+		if(-1 == closedir(start))
+		{
+			perror("closedir");
+		}
+
 		return;
 	}
 	
@@ -555,12 +598,18 @@ static void lookup42()
 	if(errno != 0)
 	{
 		perror("error reading directory");
-		closedir(start);
+		if(-1 == closedir(start))
+		{
+			perror("closedir");
+		}
 		return;
 	}
 
 	
-	closedir(start);
+	if(-1 == closedir(start))
+	{
+		perror("closedir");	
+	}
 	return;
 }
 
