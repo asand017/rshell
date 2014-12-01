@@ -12,12 +12,25 @@
 #include <vector>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <boost/algorithm/string.hpp>
 
 using namespace std;
 
 using namespace boost;
 
 void execvp(char **ye, int k) {
+	char *kewl2 = getenv("PATH");
+	if(kewl2 == NULL)
+		perror("getenv");
+
+	string kewl = kewl2;
+
+	vector<string> vec;
+	split(vec, kewl, is_any_of(":")); 
+	
+	errno = 0;
+	
+	string sweg;
 	ye[k] = NULL;
         int pid = fork();
         if(pid == -1) {
@@ -25,19 +38,43 @@ void execvp(char **ye, int k) {
                 exit(1);
         }
         if(pid == 0) {
-        	int r = execvp(ye[0], ye);
-                if(r == -1) {
-                       perror("execvp");
-                      
-                }
+       		
+		for(unsigned i = 0; i < vec.size(); ++i) {
+			vec[i] += "/";
+			vec[i] += ye[0];
+	
+			sweg = ye[0];
+				
+			if(sweg == "exit")
+			{
+				exit(1);
+			}	
+				
+			int r = execv(vec[i].c_str(), ye);
+               		if(r == -1) {
+                       	//	perror("execv");     
+			//	continue;
+               		
+				if((i + 1) == vec.size())
+				{
+					perror("execv");
+				}
+				continue;
+			}
+	
+		}			
         }
       	else {
+		if(sweg == "exit") {
+			exit(1);	
+		}
         	if(-1 == waitpid(pid, &pid, 0)) {
                           perror("waitpid");
                 }
         }
 
 }
+
 	
 
 void rshell(string &x) {
