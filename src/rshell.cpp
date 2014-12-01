@@ -20,7 +20,8 @@ using namespace std;
 using namespace boost;
 
 void sig_handler(int signum)
-{	
+{
+	continue;	
 	return;
 }
 
@@ -617,8 +618,8 @@ int main()
 	if(x == NULL) {
 		perror("getlogin");
 	}
-	char blak [12];	
-	size_t len = 20;
+	char blak [256];	
+	size_t len = 64;
 	if(-1 == gethostname(blak, len)) {
 		perror("gethostname");	
 	}
