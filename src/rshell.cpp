@@ -62,7 +62,9 @@ void execvp(char **ye, int k) {
 				continue;
 			}
 	
-		}			
+		}
+		if(sweg == "exit")
+			exit(1);			
         }
       	else {
 		if(sweg == "exit") {
