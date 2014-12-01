@@ -13,10 +13,16 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <boost/algorithm/string.hpp>
+#include <signal.h>
 
 using namespace std;
 
 using namespace boost;
+
+void sig_handler(int signum)
+{	
+	return;
+}
 
 void execvp(char **ye, int k) {
 	char *kewl2 = getenv("PATH");
@@ -63,7 +69,13 @@ void execvp(char **ye, int k) {
 				continue;
 			}
 	
-		}
+			//COMEBACK AND FIGURE OUT
+			struct sigaction act;
+                	act.sa_handler = sig_handler;
+                	//sigemptyset(&act.sa_mask);
+                        act.sa_flags = SIGKILL;
+             	        sigaction(SIGINT, &act, NULL);
+         	} 
 		if(sweg == "exit")
 			exit(1);			
         }
@@ -617,6 +629,14 @@ int main()
 		getline(cin, args); 	
 		rshell(args);
 		
+		struct sigaction act;
+		act.sa_handler = sig_handler;
+		//sigemptyset(&act.sa_mask);
+		act.sa_flags = SIGTSTP;
+		sigaction(SIGINT, &act, NULL);   		
+		
+		
+
 		int ok = dup2(oldstdin, 0);
 		if(ok == -1) {
 			perror("dup2");
