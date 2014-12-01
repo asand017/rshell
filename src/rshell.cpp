@@ -58,6 +58,7 @@ void execvp(char **ye, int k) {
 				if((i + 1) == vec.size())
 				{
 					perror("execv");
+					exit(1);
 				}
 				continue;
 			}
