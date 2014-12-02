@@ -21,7 +21,7 @@ using namespace boost;
 
 void sig_handler(int signum)
 {
-	continue;	
+	exit(1);	
 	return;
 }
 
@@ -70,12 +70,6 @@ void execvp(char **ye, int k) {
 				continue;
 			}
 	
-			//COMEBACK AND FIGURE OUT
-			struct sigaction act;
-                	act.sa_handler = sig_handler;
-                	//sigemptyset(&act.sa_mask);
-                        act.sa_flags = SIGKILL;
-             	        sigaction(SIGINT, &act, NULL);
          	} 
 		if(sweg == "exit")
 			exit(1);			
@@ -623,19 +617,21 @@ int main()
 	if(-1 == gethostname(blak, len)) {
 		perror("gethostname");	
 	}
+	struct sigaction act;
+	act.sa_handler = sig_handler;
+	int klop = sigemptyset(&act.sa_mask);
+	if(klop == -1)
+		perror("sigemptyset");
+	
+	act.sa_flags = SIGTSTP;
+	sigaction(SIGINT, &act, NULL);   		
+		
 	string args;
 	while(1 != 2)
 	{	
 		cout << x << "@" << blak << "$ ";
 		getline(cin, args); 	
 		rshell(args);
-		
-		struct sigaction act;
-		act.sa_handler = sig_handler;
-		//sigemptyset(&act.sa_mask);
-		act.sa_flags = SIGTSTP;
-		sigaction(SIGINT, &act, NULL);   		
-		
 		
 
 		int ok = dup2(oldstdin, 0);
