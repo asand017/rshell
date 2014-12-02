@@ -20,10 +20,10 @@ using namespace std;
 
 using namespace boost;
 
-//void sig_handler(int i) {
-//	cerr << endl;	
-//	return;
-//}
+void sig_handler(int i) {
+	cerr << "blah mofo" << endl;;	
+	return;
+}
 
 void execvp(char **ye, int k) {
 	char *kewl2 = getenv("PATH");
@@ -103,12 +103,10 @@ void rshell(string &x) {
 	string saad;
 	vector<string> arg_s;	
 	typedef tokenizer< char_separator<char> > tokenizer;
-	char_separator<char> sep (" ", "~<>>>\"#-;:.||&&", drop_empty_tokens);
+	char_separator<char> sep (" ", "~<>>>\"#-;:||&&", drop_empty_tokens);
 	tokenizer tokens(x, sep);
 	for(tokenizer::iterator tok_iter=tokens.begin(); tok_iter != tokens.end(); ++tok_iter) {			 
-
-		
-
+	
 	
 		if(*tok_iter == "cd")
 		{
@@ -639,7 +637,8 @@ int main()
 
 	if(oldstderr == -1) 
 		perror("dup");	
-
+	
+	//getting login and hostname
 	char *x = getlogin();
 	if(x == NULL) {
 		perror("getlogin");
@@ -650,25 +649,23 @@ int main()
 		perror("gethostname");	
 	}
 	
+	struct sigaction act;
+	(-1 == sigemptyset(&act.sa_mask));{
+		perror("sigemptyset");
+	}
+	act.sa_handler = SIG_IGN;
+	
+	act.sa_flags = SA_RESTART;
+	
+	sigaction(SIGINT, &act, NULL);
+	
+	//the rshell
 	string args;
 	while(1 != 2)
 	{	
 		cout << x << "@" << blak << "$ ";
 		getline(cin, args); 	
 		rshell(args);
-		
-		
-		
-		struct sigaction act;
-		memset(&act, 0, sizeof(act));
-		act.sa_handler = SIG_IGN;
-		int klop = sigemptyset(&act.sa_mask);
-		if(klop == -1)
-			perror("sigemptyset");
-	
-		act.sa_flags = SA_SIGINFO;
-		sigaction(SIGINT, &act, NULL);   		
-
 		
 
 		int ok = dup2(oldstdin, 0);
