@@ -20,9 +20,9 @@ using namespace std;
 
 using namespace boost;
 
-void sig_handler(int i) {
-	cerr << "blah mofo" << endl;;	
-	return;
+void sig_handler(int signum) {
+	if(signum == SIGINT) 
+		return;	
 }
 
 void execvp(char **ye, int k) {
@@ -77,8 +77,11 @@ void execvp(char **ye, int k) {
          	} 
 		if(sweg == "exit")
 			exit(1);			
-        }
+       		
+		//signal(SIGINT, sig_handler);
+	 }
       	else {
+		//signal(SIGINT, sig_handler);
 		if(sweg == "exit") {
 			exit(1);	
 		}
@@ -657,24 +660,24 @@ int main()
 		perror("gethostname");	
 	}
 	
-	struct sigaction act;
-	(-1 == sigemptyset(&act.sa_mask));//{
+//	struct sigaction act;
+//	(-1 == sigemptyset(&act.sa_mask));//{
 		//perror("sigemptyset");
 //	}
 		
-	(-1 == sigaddset(&act.sa_mask, SIGHUP));
+//	(-1 == sigaddset(&act.sa_mask, SIGHUP));
 //	{
 	//	perror("sigaddset");	
 
 //	}
-	act.sa_handler = SIG_IGN;
+//	act.sa_handler = SIG_IGN;
 	
-	act.sa_flags = SA_RESETHAND;
+//	act.sa_flags = SA_RESETHAND;
 	
-	if(-1 == sigaction(SIGINT, &act, NULL)) {
-		perror("sigaction");
-	}
-	
+//	if(-1 == sigaction(SIGINT, &act, NULL)) {
+//		perror("sigaction");
+//	}
+	signal(SIGINT, sig_handler);	
 	//the rshell
 	string args;
 	while(1 != 2)
@@ -687,6 +690,7 @@ int main()
 	
 			
 		cout << x << "@" << blak << buffer << "$ ";
+//		signal(SIGINT, SIG_IGN);
 		getline(cin, args); 	
 		rshell(args);
 		
