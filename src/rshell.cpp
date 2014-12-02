@@ -14,16 +14,16 @@
 #include <fcntl.h>
 #include <boost/algorithm/string.hpp>
 #include <signal.h>
+#include <dirent.h>
 
 using namespace std;
 
 using namespace boost;
 
-void sig_handler(int signum)
-{
-	exit(1);	
-	return;
-}
+//void sig_handler(int i) {
+//	cerr << endl;	
+//	return;
+//}
 
 void execvp(char **ye, int k) {
 	char *kewl2 = getenv("PATH");
@@ -36,7 +36,6 @@ void execvp(char **ye, int k) {
 	split(vec, kewl, is_any_of(":")); 
 	
 	errno = 0;
-	
 	string sweg;
 	ye[k] = NULL;
         int pid = fork();
@@ -70,6 +69,11 @@ void execvp(char **ye, int k) {
 				continue;
 			}
 	
+			if(-1 == kill(pid, SIGINT)){
+				perror("kill");
+			}
+	
+	
          	} 
 		if(sweg == "exit")
 			exit(1);			
@@ -85,7 +89,33 @@ void execvp(char **ye, int k) {
 
 }
 
+void changedir(string caker) {
+	//cerr << "no?" << endl;
+	if(caker == "~/") {
+		char *kewl2 = getenv("PATH");
+		if(kewl2 == NULL)
+			perror("getenv");
+
+		string kewl = kewl2;
 	
+		//DIR *jake = opendir(kewl.c_str());
+		//if(NULL == jake) {
+		//	perror("opendir");
+		//}
+		if(-1 == chdir(kewl.c_str())) {
+			perror("chdir");
+		}
+	//	if(-1 == closedir(jake)) {
+	//		perror("closedir");
+	//	}
+		return;	
+	}
+		
+	if(-1 == chdir(caker.c_str())){
+		perror("chdir");
+	}
+	return;
+}	
 
 void rshell(string &x) {
 	char *argv[9];
@@ -94,10 +124,33 @@ void rshell(string &x) {
 	string saad;
 	vector<string> arg_s;	
 	typedef tokenizer< char_separator<char> > tokenizer;
-	char_separator<char> sep (" ", "<>>>\"#-;||&&", drop_empty_tokens);
+	char_separator<char> sep (" ", "~<>>>\"#-;:/.||&&", drop_empty_tokens);
 	tokenizer tokens(x, sep);
 	for(tokenizer::iterator tok_iter=tokens.begin(); tok_iter != tokens.end(); ++tok_iter) {			 
+
 		
+
+	
+		if(*tok_iter == "cd")
+		{
+			
+			++tok_iter;	
+			string joker = *tok_iter;
+			if(joker == ".") {
+				++tok_iter;
+				if(*tok_iter == ".")
+					joker += *tok_iter;
+			}
+	
+			if(joker.at(joker.size()-1) != '/'){
+				//cerr << joker << endl;
+				joker += "/";
+			}
+			//cerr << joker << endl;	
+			changedir(joker);
+			continue;
+		}
+				
 		if(saad == "-") {
 			if(*tok_iter == "-") {
 				saad += *tok_iter;
@@ -617,21 +670,26 @@ int main()
 	if(-1 == gethostname(blak, len)) {
 		perror("gethostname");	
 	}
-	struct sigaction act;
-	act.sa_handler = sig_handler;
-	int klop = sigemptyset(&act.sa_mask);
-	if(klop == -1)
-		perror("sigemptyset");
 	
-	act.sa_flags = SIGTSTP;
-	sigaction(SIGINT, &act, NULL);   		
-		
 	string args;
 	while(1 != 2)
 	{	
 		cout << x << "@" << blak << "$ ";
 		getline(cin, args); 	
 		rshell(args);
+		
+		
+		
+		struct sigaction act;
+		memset(&act, 0, sizeof(act));
+		act.sa_handler = SIG_IGN;
+		int klop = sigemptyset(&act.sa_mask);
+		if(klop == -1)
+			perror("sigemptyset");
+	
+		act.sa_flags = SA_SIGINFO;
+		sigaction(SIGINT, &act, NULL);   		
+
 		
 
 		int ok = dup2(oldstdin, 0);
