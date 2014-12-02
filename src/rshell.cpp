@@ -89,28 +89,7 @@ void execvp(char **ye, int k) {
 
 }
 
-void changedir(string caker) {
-	//cerr << "no?" << endl;
-	if(caker == "~/") {
-		char *kewl2 = getenv("PATH");
-		if(kewl2 == NULL)
-			perror("getenv");
-
-		string kewl = kewl2;
-	
-		//DIR *jake = opendir(kewl.c_str());
-		//if(NULL == jake) {
-		//	perror("opendir");
-		//}
-		if(-1 == chdir(kewl.c_str())) {
-			perror("chdir");
-		}
-	//	if(-1 == closedir(jake)) {
-	//		perror("closedir");
-	//	}
-		return;	
-	}
-		
+void changedir(string caker) {	
 	if(-1 == chdir(caker.c_str())){
 		perror("chdir");
 	}
@@ -124,7 +103,7 @@ void rshell(string &x) {
 	string saad;
 	vector<string> arg_s;	
 	typedef tokenizer< char_separator<char> > tokenizer;
-	char_separator<char> sep (" ", "~<>>>\"#-;:/.||&&", drop_empty_tokens);
+	char_separator<char> sep (" ", "~<>>>\"#-;:.||&&", drop_empty_tokens);
 	tokenizer tokens(x, sep);
 	for(tokenizer::iterator tok_iter=tokens.begin(); tok_iter != tokens.end(); ++tok_iter) {			 
 
