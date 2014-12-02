@@ -12,9 +12,9 @@
 #include <vector>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <boost/algorithm/string.hpp>
 #include <signal.h>
 #include <dirent.h>
+#include <boost/algorithm/string.hpp>
 
 using namespace std;
 
@@ -106,8 +106,7 @@ void rshell(string &x) {
 	char_separator<char> sep (" ", "~<>>>\"#-;:||&&", drop_empty_tokens);
 	tokenizer tokens(x, sep);
 	for(tokenizer::iterator tok_iter=tokens.begin(); tok_iter != tokens.end(); ++tok_iter) {			 
-	
-	
+		
 		if(*tok_iter == "cd")
 		{
 			
@@ -567,8 +566,17 @@ void rshell(string &x) {
 		  string lop = *tok_iter;
 		  string llop;
 		  if((*tok_iter).size() == 1) {
+			string lodge = *tok_iter;
 			++tok_iter;
-			if(*tok_iter == "-") {
+			if(tok_iter == tokens.end()) {
+				arg_s.push_back(lodge);
+				argv[i] = new char[12];
+				strcpy(argv[i], const_cast<char*>(arg_s[i].c_str()));
+			
+				++i;
+				break;;
+			}
+			else if(*tok_iter == "-") {
 				llop += lop;
 				llop += *tok_iter;
 		//		cerr << mok << endl;
@@ -650,20 +658,35 @@ int main()
 	}
 	
 	struct sigaction act;
-	(-1 == sigemptyset(&act.sa_mask));{
-		perror("sigemptyset");
-	}
+	(-1 == sigemptyset(&act.sa_mask));//{
+		//perror("sigemptyset");
+//	}
+		
+	(-1 == sigaddset(&act.sa_mask, SIGHUP));
+//	{
+	//	perror("sigaddset");	
+
+//	}
 	act.sa_handler = SIG_IGN;
 	
-	act.sa_flags = SA_RESTART;
+	act.sa_flags = SA_RESETHAND;
 	
-	sigaction(SIGINT, &act, NULL);
+	if(-1 == sigaction(SIGINT, &act, NULL)) {
+		perror("sigaction");
+	}
 	
 	//the rshell
 	string args;
 	while(1 != 2)
-	{	
-		cout << x << "@" << blak << "$ ";
+	{
+		char buffer [256];
+		size_t size = 100;
+		char* cwd = getcwd(buffer, size);
+		if(cwd == NULL)
+			perror("getcwd");
+	
+			
+		cout << x << "@" << blak << buffer << "$ ";
 		getline(cin, args); 	
 		rshell(args);
 		
