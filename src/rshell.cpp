@@ -125,6 +125,8 @@ void rshell(string &x) {
 				//cerr << joker << endl;
 				joker += "/";
 			}
+			going += joker;
+			going += " ";
 			//cerr << joker << endl;	
 			changedir(joker);
 			continue;
@@ -659,25 +661,11 @@ int main()
 	if(-1 == gethostname(blak, len)) {
 		perror("gethostname");	
 	}
-	
-//	struct sigaction act;
-//	(-1 == sigemptyset(&act.sa_mask));//{
-		//perror("sigemptyset");
-//	}
-		
-//	(-1 == sigaddset(&act.sa_mask, SIGHUP));
-//	{
-	//	perror("sigaddset");	
 
-//	}
-//	act.sa_handler = SIG_IGN;
-	
-//	act.sa_flags = SA_RESETHAND;
-	
-//	if(-1 == sigaction(SIGINT, &act, NULL)) {
-//		perror("sigaction");
-//	}
-	signal(SIGINT, sig_handler);	
+	if(SIG_ERR == signal(SIGINT, sig_handler))
+	{
+		perror("signal");	
+	}	
 	//the rshell
 	string args;
 	while(1 != 2)
@@ -690,7 +678,7 @@ int main()
 	
 			
 		cout << x << "@" << blak << buffer << "$ ";
-//		signal(SIGINT, SIG_IGN);
+
 		getline(cin, args); 	
 		rshell(args);
 		
