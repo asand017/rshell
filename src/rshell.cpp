@@ -58,8 +58,6 @@ void execvp(char **ye, int k) {
 				
 			int r = execv(vec[i].c_str(), ye);
                		if(r == -1) {
-                       	//	perror("execv");     
-			//	continue;
                		
 				if((i + 1) == vec.size())
 				{
@@ -78,10 +76,10 @@ void execvp(char **ye, int k) {
 		if(sweg == "exit")
 			exit(1);			
        		
-		//signal(SIGINT, sig_handler);
+
 	 }
       	else {
-		//signal(SIGINT, sig_handler);
+
 		if(sweg == "exit") {
 			exit(1);	
 		}
@@ -109,29 +107,7 @@ void rshell(string &x) {
 	char_separator<char> sep (" ", "~<>>>\"#-;:||&&", drop_empty_tokens);
 	tokenizer tokens(x, sep);
 	for(tokenizer::iterator tok_iter=tokens.begin(); tok_iter != tokens.end(); ++tok_iter) {			 
-		
-		if(*tok_iter == "cd")
-		{
-			
-			++tok_iter;	
-			string joker = *tok_iter;
-			if(joker == ".") {
-				++tok_iter;
-				if(*tok_iter == ".")
-					joker += *tok_iter;
-			}
-	
-			if(joker.at(joker.size()-1) != '/'){
-				//cerr << joker << endl;
-				joker += "/";
-			}
-			going += joker;
-			going += " ";
-			//cerr << joker << endl;	
-			changedir(joker);
-			continue;
-		}
-				
+					
 		if(saad == "-") {
 			if(*tok_iter == "-") {
 				saad += *tok_iter;
@@ -164,6 +140,8 @@ void rshell(string &x) {
 
 		  if(*tok_iter == ";") {
                         ++tok_iter;
+			if(going == "")
+				continue;
                         rshell(going);
                         going.erase(0, going.find(*tok_iter, i));
                         arg_s.clear();
@@ -175,6 +153,8 @@ void rshell(string &x) {
 			++tok_iter;
 			if(*tok_iter == "&") {
 				++tok_iter;
+				if(going == "")
+					continue;
 				rshell(going);
 				going.erase(0, going.find(*tok_iter, i));
 				arg_s.clear();
@@ -558,6 +538,8 @@ void rshell(string &x) {
 			}//end piping	
 			else if(*tok_iter == "|") {
 				++tok_iter;
+				if(going == "")
+					continue;
 				rshell(going);
 				going.erase(0, going.find(*tok_iter, i));
 				arg_s.clear();
@@ -566,7 +548,28 @@ void rshell(string &x) {
 			}	
 		
 		  }
-		  
+
+		 if(*tok_iter == "cd")
+		 {
+			
+			++tok_iter;	
+			string joker = *tok_iter;
+
+			if(joker == ".") {
+				++tok_iter;
+				if(*tok_iter == ".")
+					joker += *tok_iter;
+			}
+	
+			if(joker.at(joker.size()-1) != '/'){
+			
+				joker += "/";
+			}
+
+			changedir(joker);
+			continue;
+		  }
+		
 		  tokenizer::iterator daw = tok_iter;                  
 		  string lop = *tok_iter;
 		  string llop;
