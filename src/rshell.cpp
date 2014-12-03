@@ -23,6 +23,9 @@ using namespace boost;
 void sig_handler(int signum) {
 	if(signum == SIGINT) 
 		return;	
+	
+	if(signum == SIGTSTP)
+		return;
 }
 
 void execvp(char **ye, int k) {
@@ -666,6 +669,10 @@ int main()
 	}
 
 	if(SIG_ERR == signal(SIGINT, sig_handler))
+	{
+		perror("signal");	
+	}
+	if(SIG_ERR == signal(SIGTSTP, sig_handler))
 	{
 		perror("signal");	
 	}	
