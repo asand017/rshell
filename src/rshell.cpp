@@ -48,6 +48,22 @@ void execvp(char **ye, int k) {
         }
         if(pid == 0) {
        		
+//		pid = getpid();
+		
+//		if(-1 == setpgid(pid, pid))
+//			perror("setpgid");
+	
+//		if(isatty(0))
+//			tcsetpgrp(0, pid);
+		
+//		if(isatty(1))
+//			tcsetpgrp(1, pid);
+
+//		if(isatty(2))
+//			tcsetpgrp(2, pid);			
+		
+		signal(SIGTSTP, SIG_DFL);
+
 		for(unsigned i = 0; i < vec.size(); ++i) {
 			vec[i] += "/";
 			vec[i] += ye[0];
@@ -82,7 +98,9 @@ void execvp(char **ye, int k) {
 
 	 }
       	else {
-
+	//	struct terminos *blast;
+//		setpgid(pid, pid);
+		signal(SIGTSTP, sig_handler);
 		if(sweg == "exit") {
 			exit(1);	
 		}
