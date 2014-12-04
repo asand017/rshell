@@ -21,9 +21,11 @@ using namespace std;
 using namespace boost;
 
 void sig_handler(int signum) {
-	if(signum == SIGINT) 
+	if(signum == SIGINT) {
+ 		//cout << endl;
 		return;	
-	
+	}
+		
 	if(signum == SIGTSTP)
 		return;
 }
