@@ -21,8 +21,7 @@ using namespace std;
 using namespace boost;
 
 void sig_handler(int signum) {
-	if(signum == SIGINT) {
- 		//cout << endl;
+	if(signum == SIGINT) {	
 		return;	
 	}
 		
@@ -50,7 +49,7 @@ void execvp(char **ye, int k) {
         }
         if(pid == 0) {
        		
-//		pid = getpid();
+//		int cpid = getpid();
 		
 //		if(-1 == setpgid(pid, pid))
 //			perror("setpgid");
@@ -88,11 +87,6 @@ void execvp(char **ye, int k) {
 				continue;
 			}
 	
-			if(-1 == kill(pid, SIGINT)){
-				perror("kill");
-			}
-	
-	
          	} 
 		if(sweg == "exit")
 			exit(1);			
@@ -102,6 +96,7 @@ void execvp(char **ye, int k) {
       	else {
 	//	struct terminos *blast;
 //		setpgid(pid, pid);
+		
 		signal(SIGTSTP, sig_handler);
 		if(sweg == "exit") {
 			exit(1);	
@@ -691,7 +686,7 @@ int main()
 	if(SIG_ERR == signal(SIGINT, sig_handler))
 	{
 		perror("signal");	
-	}
+	}	
 	if(SIG_ERR == signal(SIGTSTP, sig_handler))
 	{
 		perror("signal");	
@@ -705,8 +700,7 @@ int main()
 		char* cwd = getcwd(buffer, size);
 		if(cwd == NULL)
 			perror("getcwd");
-	
-			
+		
 		cout << x << "@" << blak << buffer << "$ ";
 
 		getline(cin, args); 	
