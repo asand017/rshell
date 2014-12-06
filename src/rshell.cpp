@@ -501,7 +501,7 @@ void rshell(string &x) {
 							cout << temp << endl;
 							char *toby[9];
 							int l = 0;
-							string goin;
+						//	string goin;
 						//	string saad;
 							vector<string> ar;	
 						//	typedef tokenizer< char_separator<char> > tokenizer;
