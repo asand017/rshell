@@ -1,0 +1,67 @@
+Script started on Fri 05 Dec 2014 09:29:55 PM PST
+~
+asand017@hammer $ cd rshell; bin/rshell
+asand017@hammer.cs.ucr.edu/home/csmajs/asand017/rshell$ cd cake/frosting/b vanilla #cd with a path
+asand017@hammer.cs.ucr.edu/home/csmajs/asand017/rshell/cake/frosting/vanilla$ cd cd  d ../../.. #cd with a .. string
+asand017@hammer.cs.ucr.edu/home/csmajs/asand017/rshell$ cd src                    #cd with a single f directory
+asand017@hammer.cs.ucr.edu/home/csmajs/asand017/rshell/src$ cd ..; ls && w echo test || pwd #cd with connectors
+bin  cake  LICENSE  Makefile  README.md  src  tests
+test
+/home/csmajs/asand017/rshell
+asand017@hammer.cs.ucr.edu/home/csmajs/asand017/rshell$ ^C         $ #con  ntrl-C doesnt 't exit shell
+asand017@hammer.cs.ucr.edu/home/csmajs/asand017/rshell$ ^C^C^C^C^C   #multiop  ple cont   ntrl-C's dont   't exit shell
+asand017@hammer.cs.ucr.edu/home/csmajs/asand017/rshell$ cat        #cntrl-C intru  urrupts running command  s in shell
+test
+test
+go
+go
+stop
+stop
+^Casand017@hammer.cs.ucr.edu/home/csmajs/asand017/rshell$ ls; pwd; echo test ||                     cd src; 
+asand017@hammer.cs.ucr.edu/home/csmajs/asand017/rshell/src$ g++ rshell.cpp     #execv accepts linker G+  g==  ++
+asand017@hammer.cs.ucr.edu/home/csmajs/asand017/rshell/src$ . a.out              #can run rshell in rshell
+asand017@hammer.cs.ucr.edu/home/csmajs/asand017/rshell/src$ exit               #exiting new rshell
+asand017@hammer.cs.ucr.edu/home/csmajs/asand017/rshell/src$ exit               #exev cv work    working prop            is working properlt y
+~/rshell
+asand017@hammer $ cd rshell; bin/rshell
+bash: cd: rshell: No such file or directory
+asand017@hammer.cs.ucr.edu/home/csmajs/asand017/rshell$ ls
+bin  cake  LICENSE  Makefile  README.md  src  tests
+asand017@hammer.cs.ucr.edu/home/csmajs/asand017/rshell$ ^C^C^C^Cls       #cntrl-c and a command
+bin  cake  LICENSE  Makefile  README.md  src  tests
+asand017@hammer.cs.ucr.edu/home/csmajs/asand017/rshell$ cd ..  \             #cd can f go to root directory
+chdir: No such file or directory
+asand017@hammer.cs.ucr.edu/home/csmajs/asand017/rshell$ cd /             #opp  ops from      wrong sla  lash
+asand017@hammer.cs.ucr.edu/$ cd  ls
+bin   cgroup  C:\nppdf32Log\debuglog.txt  etc	 home  lib64	   media  mnt  opt   root  selinux  sys  usr
+boot  class   dev			  extra  lib   lost+found  misc   net  proc  sbin  srv	    tmp  var
+asand017@hammer.cs.ucr.edu/$ cd home/csmajs/asand017                     #cd can   gets back to root directory
+asand017@hammer.cs.ucr.edu/home/csmajs/asand017$ ls
+1			cookies.sqlite	    ex3.asm		     index.html.2	  new.cpp		  README.md	    test3.cpp
+addons.sqlite		cookies.sqlite-shm  ex4.asm		     index.html.3	  --no-check-certificate  rshell	    test.cpp
+a.out			cs100		    extensions.ini	     key3.db		  num1_lab1.cpp		  safebrowsing	    text.cpp
+assn1.asm		cs100lab	    extensions.sqlite	     lab1.asm		  num4.cpp		  search.json	    thumbnails
+assn1.tgz		cs100lecture	    firstrepo		     lab1.tgz		  permissions.sqlite	  secmod.db	    times.json
+blocklist.xml		cs61assn	    formhistory.sqlite	     lab2.tgz		  Pictures		  sessionstore.bak  urlclassifierkey3.txt
+bookmarkbackups		cs61labs	    healthreport	     lab3q1.cpp		  places.sqlite		  sessionstore.js   Videos
+Cache			Desktop		    healthreport.sqlite      lab3q1.o		  places.sqlite-shm	  signons.sqlite    webapps
+_CACHE_CLEAN_		Documents	    healthreport.sqlite-shm  localstore.rdf	  pluginreg.dat		  startupCache	    webappsstore.sqlite
+cert8.db		Downloads	    helloworld.asm	     marionette.log	  prefs.js		  talk.jpg	    webappsstore.sqlite-shm
+chromeappsstore.sqlite	downloads.sqlite    indexedDB		     mimeTypes.rdf	  Public		  t.cpp		    workspace
+compatibility.ini	ex1.asm		    index.html		     mozilla-media-cache  qw.jpeg		  Templates
+content-prefs.sqlite	ex2.asm		    index.html.1	     Music		  README		  test2.cpp
+asand017@hammer.cs.ucr.edu/home/csmajs/asand017$ cd rshell               #cd working properly
+asand017@hammer.cs.ucr.edu/home/csmajs/asand017/rshell$ grep test        #one more          another test for cntrl-C
+cow
+test
+test
+^Casand017@hammer.cs.ucr.edu/home/csmajs/asand017/rshell$       ^C               #contrl-C working properly
+asand017@hammer.cs.ucr.edu/home/csmajs/asand017/rshell$ ^Z               #contrl -  -Z doesn't pause rshell
+asand017@hammer.cs.ucr.edu/home/csmajs/asand017/rshell$ ^Zls             #contrl-Z and a command
+bin  cake  LICENSE  Makefile  README.md  src  tests
+asand017@hammer.cs.ucr.edu/home/csmajs/asand017/rshell$ exit
+~/rshell
+asand017@hammer $ exit
+exit
+
+Script done on Fri 05 Dec 2014 09:39:03 PM PST
