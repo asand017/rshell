@@ -24,7 +24,7 @@ In terminal:
 Summary:
 
 rshell attempts to mimic a bash-like terminal shell. rshell accepts bash command executables
-that exist in /bin, however it does not function with built-in bash commands, such as cd.
+that exist in /bin, including cd (excluding *cd* or *cd~* )
 rshell can also execute output (>, >>)  and input (<) redirection.
 
 ls mimics the GNU ls command and is functional for the "-a", "-l", and "-R" flags.
@@ -33,12 +33,13 @@ cp mimics the cp bash command.
 
 Functionality:
 
-rshell includes a special built in exit command, exit. Additionally it features a "$" command prompt at the beginning of 
-each command line.
+rshell does virtually everything the bash shell does, save for some subtleties.  
 
 asand017@cs100:~/rshell/src (master) $ rshell
+
 $ ls -l; echo test && pwd || ls
 total 88
+
 -rwx------ 1 asand017 csmajs 17716 Nov 11 23:30 a.out
 -rw------- 1 asand017 csmajs  4803 Nov 11 23:56 cp.cpp
 -rw------- 1 asand017 csmajs  9101 Nov 11 23:56 ls.cpp
@@ -50,7 +51,8 @@ test
 a.out  cp.cpp  ls.cpp  rshell  rshell.cpp  Timer.h
 $ ls # -lR /
 a.out  cp.cpp  ls.cpp  rshell  rshell.cpp  Timer.h
-$ 
+
+
 
 rshell input and output redirection.
 $ echo test > testing
@@ -106,6 +108,7 @@ dev               etc               extra             home              lib     
 
 
 cp works exactly as expected from the original function: 
+
 %%%%%%%%%%asand017@cs100:~/rshell/src (ls) $ g++ cp.cpp
 %%%%%%%%%%asand017@cs100:~/rshell/src (ls) $ ls
 a.out  cp.cpp  ls.cpp  rshell.cpp  Timer.h
@@ -127,7 +130,4 @@ ls output has somewhat abnoraml spacing, although it is mainly an aesthetic bug.
 
 rshell is unable to complete piped commands. It has difficulty parsing the right side of the pipe and as a result cannont complete the piping process.
 
-Additional Files:
-
-rshell comes with a Makefile and documentation of a MIT open source license.
 
