@@ -132,7 +132,7 @@ void rshell(string &x) {
 	char_separator<char> sep (" ", "~<>>>\"#-;:||&&", drop_empty_tokens);
 	tokenizer tokens(x, sep);
 	for(tokenizer::iterator tok_iter=tokens.begin(); tok_iter != tokens.end(); ++tok_iter) {			 
-					
+		//cerr << going << endl;		
 		if(saad == "-") {
 			if(*tok_iter == "-") {
 				saad += *tok_iter;
@@ -165,8 +165,8 @@ void rshell(string &x) {
 
 		  if(*tok_iter == ";") {
                         ++tok_iter;
-			if(going == "")
-				continue;
+		//	if(going == "")
+		//		continue;
                         rshell(going);
                         going.erase(0, going.find(*tok_iter, i));
                         arg_s.clear();
@@ -178,8 +178,8 @@ void rshell(string &x) {
 			++tok_iter;
 			if(*tok_iter == "&") {
 				++tok_iter;
-				if(going == "")
-					continue;
+		//		if(going == "")
+		//			continue;
 				rshell(going);
 				going.erase(0, going.find(*tok_iter, i));
 				arg_s.clear();
@@ -563,8 +563,8 @@ void rshell(string &x) {
 			}//end piping	
 			else if(*tok_iter == "|") {
 				++tok_iter;
-				if(going == "")
-					continue;
+		//		if(going == "")
+		//			continue;
 				rshell(going);
 				going.erase(0, going.find(*tok_iter, i));
 				arg_s.clear();
