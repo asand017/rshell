@@ -21,9 +21,8 @@ using namespace std;
 using namespace boost;
 
 void sig_handler(int signum) {
-	if(signum == SIGINT) {	
+	if(signum == SIGINT)
 		return;	
-	}
 		
 	if(signum == SIGTSTP)
 		return;
@@ -49,19 +48,19 @@ void execvp(char **ye, int k) {
         }
         if(pid == 0) {
        		
-//		int cpid = getpid();
+	//	int cpid = getpid();
 		
-//		if(-1 == setpgid(pid, pid))
-//			perror("setpgid");
+	//	if(-1 == setpgid(pid, cpid))
+	//		perror("setpgid");
 	
-//		if(isatty(0))
-//			tcsetpgrp(0, pid);
+	//	if(isatty(0))
+	//		tcsetpgrp(0, pid);
 		
-//		if(isatty(1))
-//			tcsetpgrp(1, pid);
+	//	if(isatty(1))
+	//		tcsetpgrp(1, pid);
 
-//		if(isatty(2))
-//			tcsetpgrp(2, pid);			
+	//	if(isatty(2))
+	//		tcsetpgrp(2, pid);			
 		
 		signal(SIGTSTP, SIG_DFL);
 
@@ -96,14 +95,22 @@ void execvp(char **ye, int k) {
       	else {
 	//	struct terminos *blast;
 //		setpgid(pid, pid);
+	
 		
-		signal(SIGTSTP, sig_handler);
+	
+		if(SIG_ERR == signal(SIGTSTP, SIG_IGN)){
+			perror("signal");
+		}
+	
 		if(sweg == "exit") {
 			exit(1);	
 		}
         	if(-1 == waitpid(pid, &pid, 0)) {
                           perror("waitpid");
                 }
+		if(WIFSIGNALED(pid)) {
+			return;
+		}
         }
 
 }
