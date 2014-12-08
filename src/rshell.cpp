@@ -28,6 +28,65 @@ void sig_handler(int signum) {
 		return;
 }
 
+ void laydapipe(char **x, char **y) {
+  
+          int pfds[2];
+          pid_t pid, pid2;
+          int status, status2;
+          pipe(pfds);
+          if((pid = fork()) < 0) {
+                  perror("fork");
+                  exit(1);
+          }
+          if(pid != 0) {
+                  if((pid2 = fork()) < 0) {
+                          perror("fork");
+                          exit(1);
+                  }
+          }
+          if(pid == 0) {
+                  close(1);
+                  dup(pfds[1]);
+                  close(pfds[0]);
+                  close(pfds[1]);
+                  if(execvp(x[0], x) < 0) {
+                          perror("execvp");
+                  }
+		  //exit(0);
+  //              close(pfds[1]);
+          }
+          else if(pid2 == 0) {
+                  close(0);
+                  dup(pfds[0]);
+                  close(pfds[1]);
+                  close(pfds[0]);
+                  if(execvp(y[0], y) < 0) {
+                          perror("execvp");
+                  }
+		  //exit(0);
+  //              close(pfds[0]);
+          }
+          else {
+	
+                  close(pfds[0]);
+                  close(pfds[1]);
+                  if(-1 ==  wait(&status)) {
+			perror("wait");
+		  	cerr << "one" << endl;
+		  }
+		  //wait(&status) != pid;
+                 // status2 = waitpid(pid2, &pid2, 0); 
+		  if(-1 == wait(&status2)) { 
+			perror("wait");
+			cerr << "two" << endl;
+		  }
+		  //wait(&status2) != pid2;
+ 
+          }
+          return;
+ }
+
+
 void execvp(char **ye, int k) {
 	char *kewl2 = getenv("PATH");
 	if(kewl2 == NULL)
@@ -123,6 +182,53 @@ void changedir(string caker) {
 }	
 
 void rshell(string &x) {
+
+	string bar = "|";
+	size_t check = x.find(bar);
+	if(check != string::npos) {
+		if(x.at(check+1) != '|') {
+			char *argv[9];
+          		char *args[9];
+       			vector<string> blast;
+          		vector<string> laser;
+          	//string x;
+          	//getline(cin, x);
+         	 	int i = 0;
+         	 	int k = 0;
+        		  typedef tokenizer< char_separator<char> > tokenizer;
+       		  	 char_separator<char> sep (" ", "~<>>>\"#-;:\'||&&", drop_empty_tokens);
+        	  	tokenizer tokens(x, sep);
+     		   	  for(tokenizer::iterator tok_iter=tokens.begin(); tok_iter != tokens.end(); ++tok_iter) {
+  
+ 		                 if(*tok_iter == "|") {
+        	                  ++tok_iter;
+        	        	          while(tok_iter != tokens.end()) {
+  		
+       		 	                          blast.push_back(*tok_iter);
+       		         	                  args[i] = new char[12];
+       	        	         	          strcpy(args[i], const_cast<char*>(blast[i].c_str()));
+               	       		          	  ++i;
+           	       		                ++tok_iter;
+               	        	           continue;
+                		          }
+                	       	   break;
+                	 	 }
+  
+ 	           	      laser.push_back(*tok_iter);
+ 	           	      argv[k] = new char[12];
+ 	           	      strcpy(argv[k], const_cast<char*>(laser[k].c_str()));
+ 	           	      ++k;
+ 	        	 }
+ 	 		
+		          argv[k] = NULL;
+	       	 	  args[i] = NULL;
+	       		  laydapipe(argv, args);
+	 		return;
+		}		
+		
+	}	
+	
+		
 	char *argv[9];
 	int i = 0;
 	string going;
@@ -409,158 +515,61 @@ void rshell(string &x) {
 
 		  if(*tok_iter == "|") {
 			++tok_iter;
-			tokenizer::iterator coward;
+			//tokenizer::iterator coward;
 			if(*tok_iter != "|") {
 			//piping
-				int pipefd[2];
-				pid_t cpid;
-				//char buf;
-				if(pipe(pipefd) == -1) {
-					perror("pipe");
-					exit(1);
-				}
-				cpid = fork();
-				if(cpid == -1) {
-					perror("fork");
-					exit(1);
-				}
-				else if(cpid == 0) {
-					if(-1 == dup2(pipefd[1],1))
-					{
-						perror("dup2");
-						exit(1);
+			/*	
+				char *ant[9];
+				char *spider[9];
+          			vector<string> blast;
+         			vector<string> laser;
+          			int a = 0;
+          			int b = 0;	
+          			char_separator<char> sep2 (" ", "~<>>>\"#-;:\'||&&", drop_empty_tokens);
+          			tokenizer tokens2(x, sep2); //here is the issue
+          			for(tokenizer::iterator tok_iter2=tok_iter; tok_iter2 != tokens2.end(); ++tok_iter2) {
+  				//	cerr << *tok_iter2 << endl;
+ 			                if(*tok_iter2 == "|") {
+                        	//	cerr << *tok_iter << endl; 
+				//	blast.push_back(*tok_iter2);
+				//	cerr << blast[a] << endl;
+				//	spider[a] = new char[12];
+				//	strcpy(spider[a], const_cast<char*>(blast[a].c_str()));
+				//	++a;
+						++tok_iter2;
+						++tok_iter;
+                          	 		while(tok_iter2 != tokens2.end() ) {
+  
+                                 			blast.push_back(*tok_iter2);
+                                  			cerr << blast[a] << endl;
+							spider[a] = new char[12];
+                                  			strcpy(spider[a], const_cast<char*>(blast[a].c_str()));
+                                  			++a;
+                                  			++tok_iter2;
+							++tok_iter;
+                                  	
+						}	cerr << "got to this point" << endl;	
+	                        	
+						break;
 					}
-					if(-1 == close(pipefd[0]))
-					{
-						perror("close");
-						exit(1);
-					}
-					argv[i] = NULL;
-					if(-1 == execvp(argv[0], argv))
-					{
-						perror("execvp");
-					}
-					exit(1);
-				}
-				else if(cpid > 0)
-				{
-					int savestdin;
-					if(-1 == (savestdin = dup(0)))
-					{
-						perror("dup");
-						exit(1);
-					}
-					if(-1 == dup2(pipefd[0], 0)) {
-						perror("dup2");
-						exit(1);
-					}
-					if(-1 == close(pipefd[1])) {
-						perror("close");
-						exit(1);
-					}
-					if(-1 == waitpid(cpid, &cpid, 0)) {
-						perror("waitpid");
-						exit(1);
-					}
-				
-					int pipefd2[2];
-					pid_t cpid2;
-					string temp;
-					if(pipe(pipefd2) == -1) {
-						perror("pipe");
-						exit(1);
-					}
-					cpid2 = fork();
-					if(cpid2 == -1) {
-						perror("fork");
-						exit(1);
-					}
-					else if(cpid2 == 0) {
-						if(-1 == dup2(pipefd2[1], 1))
-						{
-							perror("dup2");
-							exit(1);
-						}
-						if(-1 == close(pipefd2[0])) 
-						{
-							perror("close");
-							exit(1);
-						}
-						while(tok_iter != tokens.end()) {
-							//temp += *tok_iter;
-							cerr << temp << endl;
-							if((*tok_iter).size() == 1) {
-								temp += *tok_iter; //A	
-								++tok_iter;
-								temp += *tok_iter; //A-
-								++tok_iter;
-								temp += *tok_iter; //A-Z
-								temp += " ";
-								++tok_iter;
-							}
-							else
-							{
-								temp += *tok_iter;
-								temp += " ";
-								++tok_iter;
-							}
-						}
-							cout << temp << endl;
-							char *toby[9];
-							int l = 0;
-						//	string goin;
-						//	string saad;
-							vector<string> ar;	
-						//	typedef tokenizer< char_separator<char> > tokenizer;
-							char_separator<char> sep (" ", "<>>>\"#-;||&&", drop_empty_tokens);
-							tokenizer tokens(temp, sep);
-							for(tokenizer::iterator tok_iter2=tokens.begin(); tok_iter2 != tokens.end(); ++tok_iter2) {
-								 ar.push_back(*tok_iter2);
-								 toby[l] = new char[12];
-	 	 						 strcpy(toby[l], const_cast<char*>(ar[l].c_str()));
-		  						 ++l;
-							}
-							toby[l] = NULL;
-							if(-1 == execvp(toby[0], toby)) {
-								perror("execvp");
-							}
-							int e = 0;
-							while(e <= l) {
-								delete [] toby[e];
-								++e;
-							}
-							//delete [] *toby;	
-							exit(1);
-					}
-					else if(cpid > 0) {
-						int savestdin;
-						if(-1 == (savestdin = dup(0)))
-						{
-							perror("dup");
-							exit(1);
-						}
-						if(-1 == dup2(pipefd2[0], 0)) {
-							perror("dup2");
-							exit(1);
-						}
-						if(-1 == close(pipefd2[1])) {
-							perror("close");
-							exit(1);
-						}
-						if(-1 == waitpid(cpid2, &cpid2, 0)) {
-							perror("waitpid");
-							exit(1);
-						}
-					//if(-1 == dup2(savestdout, 1))
-					//	perror("dup2");
-					}
-							//if(-1 == dup2(savestdin, 0))
-					//	perror("dup2");
-				
-				//tok_iter = coward;
-					continue;
-				}
-			}//end piping	
+					//cerr << *tok_iter2 << endl;
+                         		//break;
+                 			//tok_iter = tok_iter2;
+ 					//break; 
+                 			laser.push_back(*tok_iter2);
+                  			ant[b] = new char[12];
+                  			strcpy(ant[b], const_cast<char*>(laser[b].c_str()));
+                  			++b;
+          			}
+ 				cerr << "sweg" << endl;
+          			ant[b] = NULL;
+          			spider[a] = NULL;
+         			laydapipe(ant, spider);
+				cerr << "here" << endl;	
+				return;
+				//delete **spider;
+				*/	
+			}
 			else if(*tok_iter == "|") {
 				++tok_iter;
 		//		if(going == "")
