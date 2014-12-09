@@ -16,6 +16,8 @@
 #include <time.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include <pwd.h>
+
 
 using namespace std;
 
@@ -96,11 +98,52 @@ void print_l(vector<string>& x) {
 		cout << "------" << " ";		
 
 
+		char* username = getlogin();
+		if(username == NULL) {
+			perror("getlogin");
+		}
+
+		struct passwd *z = getpwent();
+		if(z == NULL) {
+			perror("getpwent");
+		} 		
+
+		z = getpwent();
+			
+		z = getpwent();
+		
+		z = getpwent();
+		
+		z = getpwent();
+			
+		z = getpwent();
+		
+		z = getpwent();
+
+		z = getpwent();
+	
+		z = getpwent();
+
+		z = getpwent();
+	
+		z = getpwent();
+		
+	//	time_t rawtime;
+//		struct tm* timeinfo;
+	
+	//	time(&rawtime)		
+
+//		char buffer[256];
+		
+//		time(&club.st_mtime);
+//		timeinfo = localtime(&club.st_mtime); 
+			
 		cout << club.st_nlink << " ";
-		cout << club.st_uid << " ";
-		cout << club.st_gid << " ";
+		cout << username << " ";
+		cout << z->pw_name << " ";
 		cout << setw(5) << club.st_size << " ";
-		cout << setw(5) << club.st_mtime << "sec ";			
+		cout << setw(5) << club.st_mtime << " ";//strftime(buffer, 256, "", timeinfo)  << " ";			
+		//puts(buffer);
 		cout << left << setw(0) << x[e] << endl;
 	//	int fo = close(fd);
 	//	if(fo == -1)
@@ -673,7 +716,25 @@ int main( int argc, char *argv[]) {
 		{
 			if(strstr(argv[i], "R") != NULL)
 				lookup42();
-		}	
+		}
+		/*
+		else if(NULL != (DIR *x = opendir(argv[i])))
+		{
+			cerr << endl;
+			cerr << argv[i] << ":" << endl;
+			while((struct dirent y = readdir(x)) != NULL);
+			{
+				cerr << y.d_name << endl	
+			}
+			if(-1 == closedir(x)){
+				perror("closedir");
+			}
+		}
+		else if(NULL == (DIR *x = opendir(argv[i])))
+		{
+			cout << argv[i] << setw(10) << left;
+		}
+		*/	
 	}
 	
 	
