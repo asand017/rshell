@@ -661,7 +661,9 @@ int main( int argc, char *argv[]) {
 	string flag = "-a";
 	string flag2 = "-l";
 	string flag3 = "-R";
-	
+
+	DIR *x;
+		
 	if(argc == 1)
 	{	
 		lookup();
@@ -671,6 +673,10 @@ int main( int argc, char *argv[]) {
 	int i = 1;
 	for(; i < argc; ++i) {	
 		if(argv[i][0] != '-'){
+			if(NULL == (x = opendir(argv[i]))) {	
+				cerr << argv[i] << "   ";
+				continue;
+			}
 			lookup_d(argv[i]);
 		}
 		else if(argv[i] == flag) {
@@ -736,7 +742,7 @@ int main( int argc, char *argv[]) {
 		}
 		*/	
 	}
-	
+	cerr << endl;
 	
 	return 0;
 }
