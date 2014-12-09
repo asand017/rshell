@@ -542,7 +542,23 @@ void rshell(string &x) {
 		 if(*tok_iter == "cd")
 		 {
 			
-			++tok_iter;	
+			if(x == "cd") {
+				string home = getenv("HOME");
+				home += "/";
+				changedir(home);
+				continue;
+			}
+			++tok_iter;
+			cerr << "check" << endl;	
+			if(*tok_iter == "~") {
+				string home = getenv("HOME");
+				//cerr << home << endl;
+				//changedir(home);
+				//continue;
+				home += "/";
+				changedir(home);
+				continue;
+			}	
 			string joker = *tok_iter;
 
 			if(joker == ".") {
