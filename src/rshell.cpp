@@ -133,7 +133,7 @@ void execvp(char **ye, int k) {
 			{
 				exit(1);
 			}	
-				
+		
 			int r = execv(vec[i].c_str(), ye);
                		if(r == -1) {
                		
@@ -187,7 +187,7 @@ void rshell(string &x) {
 	size_t check = x.find(bar);
 	if(check != string::npos) {
 		if(x.at(check+1) != '|') {	
-			char *argv[9];
+			char *argw[9];
           		char *args[9];
        			vector<string> blast;
           		vector<string> laser;
@@ -217,14 +217,14 @@ void rshell(string &x) {
                 	 	 }
   
  	           	      laser.push_back(*tok_iter);
- 	           	      argv[k] = new char[12];
- 	           	      strcpy(argv[k], const_cast<char*>(laser[k].c_str()));
+ 	           	      argw[k] = new char[12];
+ 	           	      strcpy(argw[k], const_cast<char*>(laser[k].c_str()));
  	           	      ++k;
  	        	 }
  	 		
-		         argv[k] = NULL;
+		         argw[k] = NULL;
 	       	 	 args[i] = NULL;
-	       		 laydapipe(argv, args);
+	       		 laydapipe(argw, args);
 	 	 	 return;
 		}		
 		
@@ -252,12 +252,16 @@ void rshell(string &x) {
 		 	saad.append(*tok_iter);
 			arg_s.push_back(saad);
 			argv[i] = new char[12];
+			
 			strcpy(argv[i], const_cast<char*>(saad.c_str()));
 			if(*tok_iter == "exit")
 				exit(0);
                         ++i;
-			delete [] argv[i]; //HEERRREEE
-                        continue;               
+		
+			//delete argv[i]; //HEERRREEE
+               
+			//++i;
+			continue;               
                   
 		  }
 
@@ -601,6 +605,7 @@ void rshell(string &x) {
 
 		  
 		  arg_s.push_back(*tok_iter);
+		 
 		  argv[i] = new char[12];
 	 	  strcpy(argv[i], const_cast<char*>(arg_s[i].c_str()));
 		  
@@ -608,11 +613,14 @@ void rshell(string &x) {
 			exit(0);
 		  
 		  ++i;
+		
 		  //cerr << going << endl;	
 	}
-	
+
+
 	execvp(argv, i);
 	int v = 0;
+
 	while(v <= i) {
 		delete [] argv[v];
 		++v;
