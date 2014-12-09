@@ -29,7 +29,7 @@ void sig_handler(int signum) {
 }
 
  void laydapipe(char **x, char **y) {
-  
+ 
           int pfds[2];
           pid_t pid, pid2;
           int status, status2;
@@ -186,32 +186,34 @@ void rshell(string &x) {
 	string bar = "|";
 	size_t check = x.find(bar);
 	if(check != string::npos) {
-		if(x.at(check+1) != '|') {
+		if(x.at(check+1) != '|') {	
 			char *argv[9];
           		char *args[9];
        			vector<string> blast;
           		vector<string> laser;
-          	//string x;
-          	//getline(cin, x);
          	 	int i = 0;
          	 	int k = 0;
-        		  typedef tokenizer< char_separator<char> > tokenizer;
-       		  	 char_separator<char> sep (" ", "~<>>>\"#-;:\'||&&", drop_empty_tokens);
+        		typedef tokenizer< char_separator<char> > tokenizer;
+       		  	char_separator<char> sep (" ", "~<>>>\"#-;:\'||&&", drop_empty_tokens);
         	  	tokenizer tokens(x, sep);
-     		   	  for(tokenizer::iterator tok_iter=tokens.begin(); tok_iter != tokens.end(); ++tok_iter) {
+     		   	for(tokenizer::iterator tok_iter=tokens.begin(); tok_iter != tokens.end(); ++tok_iter) {
   
- 		                 if(*tok_iter == "|") {
-        	                  ++tok_iter;
-        	        	          while(tok_iter != tokens.end()) {
+ 		                if(*tok_iter == "|") {
+        	                	++tok_iter;
+        	        	        while(tok_iter != tokens.end() && *tok_iter != "|") {
   		
-       		 	                          blast.push_back(*tok_iter);
-       		         	                  args[i] = new char[12];
-       	        	         	          strcpy(args[i], const_cast<char*>(blast[i].c_str()));
-               	       		          	  ++i;
+       		 	                        blast.push_back(*tok_iter);
+       		         	                args[i] = new char[12];
+       	        	         	        strcpy(args[i], const_cast<char*>(blast[i].c_str()));
+               	       		         	++i;
            	       		                ++tok_iter;
-               	        	           continue;
-                		          }
-                	       	   break;
+               	        	        //        continue;
+                		        }
+					//argv[k] = NULL;
+					//args[i] = NULL;
+					//laydapipe(argv, args);
+                	       	 	//continue;
+                	       	 	break;
                 	 	 }
   
  	           	      laser.push_back(*tok_iter);
@@ -220,10 +222,10 @@ void rshell(string &x) {
  	           	      ++k;
  	        	 }
  	 		
-		          argv[k] = NULL;
-	       	 	  args[i] = NULL;
-	       		  laydapipe(argv, args);
-	 		return;
+		         argv[k] = NULL;
+	       	 	 args[i] = NULL;
+	       		 laydapipe(argv, args);
+	 	 	 return;
 		}		
 		
 	}	
@@ -374,6 +376,7 @@ void rshell(string &x) {
 	
 
 		  if(*tok_iter == "0") {
+			++tok_iter;	
 			if(*tok_iter == ">") {
 				++tok_iter;
 				if(*tok_iter == ">") {
@@ -518,57 +521,6 @@ void rshell(string &x) {
 			//tokenizer::iterator coward;
 			if(*tok_iter != "|") {
 			//piping
-			/*	
-				char *ant[9];
-				char *spider[9];
-          			vector<string> blast;
-         			vector<string> laser;
-          			int a = 0;
-          			int b = 0;	
-          			char_separator<char> sep2 (" ", "~<>>>\"#-;:\'||&&", drop_empty_tokens);
-          			tokenizer tokens2(x, sep2); //here is the issue
-          			for(tokenizer::iterator tok_iter2=tok_iter; tok_iter2 != tokens2.end(); ++tok_iter2) {
-  				//	cerr << *tok_iter2 << endl;
- 			                if(*tok_iter2 == "|") {
-                        	//	cerr << *tok_iter << endl; 
-				//	blast.push_back(*tok_iter2);
-				//	cerr << blast[a] << endl;
-				//	spider[a] = new char[12];
-				//	strcpy(spider[a], const_cast<char*>(blast[a].c_str()));
-				//	++a;
-						++tok_iter2;
-						++tok_iter;
-                          	 		while(tok_iter2 != tokens2.end() ) {
-  
-                                 			blast.push_back(*tok_iter2);
-                                  			cerr << blast[a] << endl;
-							spider[a] = new char[12];
-                                  			strcpy(spider[a], const_cast<char*>(blast[a].c_str()));
-                                  			++a;
-                                  			++tok_iter2;
-							++tok_iter;
-                                  	
-						}	cerr << "got to this point" << endl;	
-	                        	
-						break;
-					}
-					//cerr << *tok_iter2 << endl;
-                         		//break;
-                 			//tok_iter = tok_iter2;
- 					//break; 
-                 			laser.push_back(*tok_iter2);
-                  			ant[b] = new char[12];
-                  			strcpy(ant[b], const_cast<char*>(laser[b].c_str()));
-                  			++b;
-          			}
- 				cerr << "sweg" << endl;
-          			ant[b] = NULL;
-          			spider[a] = NULL;
-         			laydapipe(ant, spider);
-				cerr << "here" << endl;	
-				return;
-				//delete **spider;
-				*/	
 			}
 			else if(*tok_iter == "|") {
 				++tok_iter;
@@ -656,7 +608,7 @@ void rshell(string &x) {
 			exit(0);
 		  
 		  ++i;
-			
+		  //cerr << going << endl;	
 	}
 	
 	execvp(argv, i);
