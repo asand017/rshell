@@ -674,7 +674,12 @@ int main( int argc, char *argv[]) {
 	for(; i < argc; ++i) {	
 		if(argv[i][0] != '-'){
 			if(NULL == (x = opendir(argv[i]))) {	
-				cerr << argv[i] << "   ";
+				while(NULL == (x = opendir(argv[i])) && i < argc) {
+					cerr << argv[i] << "   ";
+					//continue;
+					++i;
+				}
+				cerr << endl;
 				continue;
 			}
 			lookup_d(argv[i]);
@@ -723,26 +728,9 @@ int main( int argc, char *argv[]) {
 			if(strstr(argv[i], "R") != NULL)
 				lookup42();
 		}
-		/*
-		else if(NULL != (DIR *x = opendir(argv[i])))
-		{
-			cerr << endl;
-			cerr << argv[i] << ":" << endl;
-			while((struct dirent y = readdir(x)) != NULL);
-			{
-				cerr << y.d_name << endl	
-			}
-			if(-1 == closedir(x)){
-				perror("closedir");
-			}
-		}
-		else if(NULL == (DIR *x = opendir(argv[i])))
-		{
-			cout << argv[i] << setw(10) << left;
-		}
-		*/	
+		
 	}
-	cerr << endl;
+	//cerr << endl;
 	
 	return 0;
 }
