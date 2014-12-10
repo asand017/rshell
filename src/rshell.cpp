@@ -33,7 +33,9 @@ void sig_handler(int signum) {
           int pfds[2];
           pid_t pid, pid2;
           int status, status2;
-          pipe(pfds);
+          if(-1 == pipe(pfds)) {
+		perror("pipe");	
+	  }
           if((pid = fork()) < 0) {
                   perror("fork");
                   exit(1);
@@ -45,10 +47,18 @@ void sig_handler(int signum) {
                   }
           }
           if(pid == 0) {
-                  close(1);
-                  dup(pfds[1]);
-                  close(pfds[0]);
-                  close(pfds[1]);
+                  if(-1 == close(1)) {
+			perror("close");
+		  }
+                  if(-1 == dup(pfds[1])) {
+			perror("dup");	
+		  }
+                  if(-1 == close(pfds[0])) {
+			perror("close");	
+		  }
+                  if(-1 == close(pfds[1])) {
+			perror("close");
+		  }
                   if(execvp(x[0], x) < 0) {
                           perror("execvp");
                   }
@@ -56,10 +66,18 @@ void sig_handler(int signum) {
   //              close(pfds[1]);
           }
           else if(pid2 == 0) {
-                  close(0);
-                  dup(pfds[0]);
-                  close(pfds[1]);
-                  close(pfds[0]);
+                  if(-1 == close(0)) {
+			perror("close");
+		  }
+                  if(-1 == dup(pfds[0])) {
+			perror("dup");	
+		  }
+                  if(-1 == close(pfds[1])) {
+			perror("close");	
+		  }
+                  if(-1 == close(pfds[0])) {
+			perror("close");	
+		  }
                   if(execvp(y[0], y) < 0) {
                           perror("execvp");
                   }
@@ -68,8 +86,12 @@ void sig_handler(int signum) {
           }
           else {
 	
-                  close(pfds[0]);
-                  close(pfds[1]);
+                  if(-1 == close(pfds[0])) {
+			perror("close");	
+		  }
+                  if(-1 == close(pfds[1])) {
+			perror("close");	
+		  }
                   if(-1 ==  wait(&status)) {
 			perror("wait");
 		  	cerr << "one" << endl;
@@ -121,7 +143,9 @@ void execvp(char **ye, int k) {
 	//	if(isatty(2))
 	//		tcsetpgrp(2, pid);			
 		
-		signal(SIGTSTP, SIG_DFL);
+		if(SIG_ERR == signal(SIGTSTP, SIG_DFL)) {
+			perror("signal");
+		}
 
 		for(unsigned i = 0; i < vec.size(); ++i) {
 			vec[i] += "/";
@@ -225,6 +249,16 @@ void rshell(string &x) {
 		         argw[k] = NULL;
 	       	 	 args[i] = NULL;
 	       		 laydapipe(argw, args);
+			 k = 0;
+			 i = 0;
+			 while(argw[k] != NULL) {
+				delete argw[k];
+				++k;	
+			 }
+			 while(args[i] != NULL) {
+				delete args[i];
+				++i;
+			 }
 	 	 	 return;
 		}		
 		
